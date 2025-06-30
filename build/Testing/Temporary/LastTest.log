@@ -1,0 +1,24 @@
+Start testing: Jun 29 21:01 -03
+----------------------------------------------------------
+1/1 Testing: doctest_tests
+1/1 Test: doctest_tests
+Command: "/home/zomas/Escritorio/C++_TEST/build/tests"
+Directory: /home/zomas/Escritorio/C++_TEST/build
+"doctest_tests" start time: Jun 29 21:01 -03
+Output:
+----------------------------------------------------------
+[doctest] doctest version is "2.4.12"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 5 | 5 passed | 0 failed | 0 skipped
+[doctest] assertions: 5 | 5 passed | 0 failed |
+[doctest] Status: SUCCESS!
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"doctest_tests" end time: Jun 29 21:01 -03
+"doctest_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jun 29 21:01 -03

@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/zomas/Escritorio/C++_TEST/build/cmake_install.cmake",
+		"/home/zomas/Escritorio/C++_TEST/build/external/raylib/cmake_install.cmake",
+		"/home/zomas/Escritorio/C++_TEST/build/external/raylib/raylib/cmake_install.cmake",
+		"/home/zomas/Escritorio/C++_TEST/build/external/raylib/raylib/external/glfw/cmake_install.cmake",
+		"/home/zomas/Escritorio/C++_TEST/build/external/raylib/raylib/external/glfw/src/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
