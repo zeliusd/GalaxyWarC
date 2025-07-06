@@ -8,7 +8,7 @@ void GameView::draw(const Player &player) {
   DrawRectangle(static_cast<int>(pos->x), static_cast<int>(pos->y), 40, 40,
                 BLACK);
 
-  DrawText("MCT GAME", 10, 10, 20, WHITE);
+  DrawText("MCT", 10, 10, 20, WHITE);
 
   EndDrawing();
 }
