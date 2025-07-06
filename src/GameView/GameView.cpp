@@ -2,6 +2,7 @@
 #include "../Blocks/Bloque.h"
 #include "raylib.h"
 #include <string>
+
 void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
                     const std::shared_ptr<Player> &player) {
   BeginDrawing();
@@ -11,22 +12,23 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
   drawBlocks(entities);
 
   std::string puntosTexto = "Puntos: " + std::to_string(player->getPoints());
-
   DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
+
   EndDrawing();
 }
 
 void GameView::drawPlayer(const std::shared_ptr<Player> &player) {
-  DrawRectangle((int)player->getX(), (int)player->getY(), 40, 40, BLACK);
+  float x = player->getX() - 40 / 2.0f;
+  float y = player->getY() - 40 / 2.0f;
+  DrawRectangle((int)x, (int)y, 40, 40, BLACK);
 }
+
 void GameView::drawBlocks(
     const std::vector<std::shared_ptr<Entity>> &entities) {
-
   for (auto &entity : entities) {
-    float x = entity->getX();
-    float y = entity->getY();
-
     if (dynamic_cast<Bloque *>(entity.get())) {
+      float x = entity->getX() - entity->getWidth() / 2.0f;
+      float y = entity->getY() - entity->getHeight() / 2.0f;
       DrawRectangle((int)x, (int)y, entity->getWidth(), entity->getHeight(),
                     GREEN);
     }

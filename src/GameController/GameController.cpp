@@ -39,7 +39,7 @@ void GameController::fallBlocksUpdate(
 }
 
 Rectangle getEntityRectangle(const Entity &e) {
-  return {e.getX() - e.getWidth() / 6000.0f, e.getY() - e.getHeight() / 1500.0f,
+  return {e.getX() - e.getWidth() / 2.0f, e.getY() - e.getHeight() / 2.0f,
           e.getWidth(), e.getHeight()};
 }
 
@@ -68,7 +68,6 @@ void GameController::manageColission(
         a->onCollision(*b);
         b->onCollision(*a);
 
-        // Si player colisiona con moneda, sumar puntos
         Player *p = dynamic_cast<Player *>(a.get());
         Bloque *bloque = dynamic_cast<Bloque *>(b.get());
         if (p && bloque && !bloque->isAlive()) {
