@@ -21,18 +21,18 @@ int main() {
 
   std::vector<std::shared_ptr<Entity>> entidades;
 
-  entidades.push_back(std::make_shared<Player>(300, 300));
+  std::shared_ptr<Player> player = std::make_shared<Player>(300, 300);
 
   for (int i = 0; i < 10; ++i) {
     entidades.push_back(crearMonedaAleatoria());
   }
-
+  entidades.push_back(player);
   GameController controller;
   GameView view;
 
   while (!WindowShouldClose()) {
-    controller.update(entidades);
-    view.draw(entidades);
+    controller.update(entidades, player);
+    view.draw(entidades, player);
   }
 
   CloseWindow();

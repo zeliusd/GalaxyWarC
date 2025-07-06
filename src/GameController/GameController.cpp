@@ -1,28 +1,24 @@
 #include "GameController.h"
-#include "../Player/Player.h"
 #include "Blocks/Bloque.h"
 #include "Entity/Entity.h"
 #include "raylib.h"
 #include <algorithm>
 #include <iostream>
+void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
+                            std::shared_ptr<Player> player) {
+  const float velocidad = player->getSpeed() * GetFrameTime();
 
-void GameController::update(std::vector<std::shared_ptr<Entity>> &entities) {
-  const float velocidad = 200.0f * GetFrameTime();
+  float dx = 0, dy = 0;
+  if (IsKeyDown(KEY_D))
+    dx += velocidad;
+  if (IsKeyDown(KEY_A))
+    dx -= velocidad;
+  if (IsKeyDown(KEY_S))
+    dy += velocidad;
+  if (IsKeyDown(KEY_W))
+    dy -= velocidad;
 
-  if (!entities.empty()) {
-    auto player = entities[0];
-    float dx = 0, dy = 0;
-    if (IsKeyDown(KEY_D))
-      dx += velocidad;
-    if (IsKeyDown(KEY_A))
-      dx -= velocidad;
-    if (IsKeyDown(KEY_S))
-      dy += velocidad;
-    if (IsKeyDown(KEY_W))
-      dy -= velocidad;
-
-    player->move(dx, dy);
-  }
+  player->move(dx, dy);
 
   manageColission(entities);
 

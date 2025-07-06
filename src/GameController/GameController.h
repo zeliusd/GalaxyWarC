@@ -2,11 +2,13 @@
 #define GAMECONTROLLER_H
 
 #include "../Entity/Entity.h"
+#include "../Player/Player.h"
 #include <memory>
 #include <vector>
 class GameController {
 public:
-  void update(std::vector<std::shared_ptr<Entity>> &entities);
+  void update(std::vector<std::shared_ptr<Entity>> &entities,
+              std::shared_ptr<Player> player);
   void manageColission(std::vector<std::shared_ptr<Entity>> &entities);
 };
 
