@@ -3,7 +3,7 @@ name: Release Build (Linux & Windows)
 on:
   push:
     tags:
-      - 'v*'  # Solo se dispara en pushes de tags que empiecen con "v"
+      - 'v*'  # Solo se ejecuta en tags que empiezan con "v"
 
 jobs:
   linux:
