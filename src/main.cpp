@@ -8,7 +8,7 @@
 #include <memory>
 #include <vector>
 
-std::shared_ptr<Bloque> crearMonedaAleatoria() {
+std::shared_ptr<Bloque> createBlock() {
   float x = static_cast<float>(rand() % 760 + 20);
   float y = static_cast<float>(-(rand() % 700));
   return std::make_shared<Bloque>(x, y);
@@ -23,8 +23,8 @@ int main() {
 
   std::shared_ptr<Player> player = std::make_shared<Player>(300, 300);
 
-  for (int i = 0; i < 10; ++i) {
-    entidades.push_back(crearMonedaAleatoria());
+  for (int i = 0; i < 15; ++i) {
+    entidades.push_back(createBlock());
   }
   entidades.push_back(player);
   GameController controller;
