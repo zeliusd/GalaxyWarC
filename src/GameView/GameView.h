@@ -2,13 +2,13 @@
 #ifndef GAMEVIEW_H
 #define GAMEVIEW_H
 
-#include "../Player/Player.h"
-#include "raylib.h"
-
+#include "../Entity/Entity.h"
+#include <memory>
+#include <vector>
 class GameView {
 
 public:
-  void draw(const Player &player);
+  void draw(const std::vector<std::shared_ptr<Entity>> &entities);
 };
 
 #endif

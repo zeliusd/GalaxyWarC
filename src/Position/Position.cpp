@@ -1,12 +1,11 @@
 #include "Position.h"
+#include <iostream>
 
-Position::Position(float x, float y, float z) {
-  x = x;
-  y = y;
-  z = z;
+Position::Position(float x, float y) {
+  this->x = x;
+  this->y = y;
 }
-void Position::move(float dx, float dy, float dz) {
+void Position::move(float dx, float dy) {
   x += dx;
   y += dy;
-  z += dz;
 }

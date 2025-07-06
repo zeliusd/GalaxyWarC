@@ -2,17 +2,28 @@
 
 #ifndef BLOQUE_H
 #define BLOQUE_H
-#include <string>
 
-class Bloque {
+#include "../Entity/Entity.h"
+#include "../Position/Position.h"
+#include <memory>
+
+class Bloque : public Entity {
 private:
-  std::string nombre;
-  std::string tipo;
+  std::shared_ptr<Position> position;
+  float width, height;
+  bool alive;
 
-  // No usar strings sino Objetos
 public:
-  Bloque(std::string nombre, std::string tipo);
-  std::string obtenerNombre();
+  Bloque(float x = 0, float y = 0);
+
+  float getX() const override;
+  float getY() const override;
+  float getWidth() const override;
+  float getHeight() const override;
+
+  void onCollision(Entity &another) override;
+  void move(float x, float y) override;
+  bool isAlive() const override;
 };
 
 #endif

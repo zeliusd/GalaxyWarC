@@ -4,8 +4,8 @@
 class Position {
 
 public:
-  float x, y, z;
-  Position(float x, float y, float z);
-  void move(float dx, float dy, float dz);
+  float x, y;
+  Position(float x, float y);
+  void move(float dx, float dy);
 };
 #endif

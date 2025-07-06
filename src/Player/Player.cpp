@@ -1,12 +1,12 @@
 #include "Player.h"
 
-Player::Player(std::string nombre, int puntosVida) {
-  nombre = nombre;
-  puntosVida = puntosVida;
-  inventario = std::make_unique<Inventario>();
-  indiceActualInventario = 0;
-  position = std::make_shared<Position>(0, 0, 0);
-  speed = 150.0f;
+Player::Player(float x, float y) {
+  this->inventario = std::make_unique<Inventario>();
+  this->indiceActualInventario = 0;
+  this->position = std::make_shared<Position>(x, y);
+  this->speed = 150.0f;
+  this->width = 40;
+  this->height = 40;
 }
 
 std::unique_ptr<Bloque> Player::tirarBloque(int indiceBloque) {
@@ -23,6 +23,17 @@ void Player::agarrarBloque(std::unique_ptr<Bloque> bloque) {
 
 std::shared_ptr<Position> Player::getPosition() const { return position; }
 
-void Player::move(float dx, float dy, float dz) { position->move(dx, dy, dz); }
+void Player::move(float dx, float dy) { position->move(dx, dy); }
 
 float Player::getSpeed() const { return speed; }
+
+float Player::getX() const { return position->x; }
+float Player::getY() const { return position->y; }
+float Player::getWidth() const { return width; }
+float Player::getHeight() const { return height; }
+
+void Player::onCollision(Entity &another) {
+  // Nada
+}
+
+bool Player::isAlive() const { return alive; }
