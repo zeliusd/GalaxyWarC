@@ -7,12 +7,12 @@
 
 class Inventario {
 private:
-  std::vector<std::unique_ptr<Bloque>> bloques;
+  std::vector<std::shared_ptr<Bloque>> bloques;
 
 public:
   Inventario() = default;
-  void addBlock(std::unique_ptr<Bloque> bloque);
-  std::unique_ptr<Bloque> tirarBloque(int indice);
+  void addBlock(std::shared_ptr<Bloque> bloque);
+  std::shared_ptr<Bloque> tirarBloque(int indice);
   bool vacio();
   int cantidadElementos();
 };

@@ -1,6 +1,7 @@
 #include "GameView.h"
 #include "../Blocks/Bloque.h"
 #include "raylib.h"
+#include <string>
 void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
                     const std::shared_ptr<Player> &player) {
   BeginDrawing();
@@ -9,7 +10,9 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
   drawPlayer(player);
   drawBlocks(entities);
 
-  DrawText("Movimiento: WASD.", 10, 10, 20, WHITE);
+  std::string puntosTexto = "Puntos: " + std::to_string(player->getPoints());
+
+  DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
   EndDrawing();
 }
 

@@ -33,7 +33,7 @@ void GameController::fallBlocksUpdate(
     std::vector<std::shared_ptr<Entity>> &entities) {
   for (auto &entity : entities) {
     if (dynamic_cast<Bloque *>(entity.get()) != nullptr) {
-      entity->move(entity->getX(), 1);
+      entity->move(entity->getX(), 100 * GetFrameTime());
     }
   }
 }

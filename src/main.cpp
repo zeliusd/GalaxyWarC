@@ -10,7 +10,7 @@
 
 std::shared_ptr<Bloque> crearMonedaAleatoria() {
   float x = static_cast<float>(rand() % 760 + 20);
-  float y = static_cast<float>(rand() % 560 + 20);
+  float y = static_cast<float>(-(rand() % 700));
   return std::make_shared<Bloque>(x, y);
 }
 
