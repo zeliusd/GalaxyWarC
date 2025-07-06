@@ -6,6 +6,9 @@
 #include <memory>
 #include <vector>
 class GameController {
+private:
+  void fallBlocksUpdate(std::vector<std::shared_ptr<Entity>> &entities);
+
 public:
   void update(std::vector<std::shared_ptr<Entity>> &entities,
               std::shared_ptr<Player> player);

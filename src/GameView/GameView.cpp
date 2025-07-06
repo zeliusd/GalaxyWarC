@@ -7,6 +7,18 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
   ClearBackground(BLUE);
 
   drawPlayer(player);
+  drawBlocks(entities);
+
+  DrawText("Movimiento: WASD.", 10, 10, 20, WHITE);
+  EndDrawing();
+}
+
+void GameView::drawPlayer(const std::shared_ptr<Player> &player) {
+  DrawRectangle((int)player->getX(), (int)player->getY(), 40, 40, BLACK);
+}
+void GameView::drawBlocks(
+    const std::vector<std::shared_ptr<Entity>> &entities) {
+
   for (auto &entity : entities) {
     float x = entity->getX();
     float y = entity->getY();
@@ -16,12 +28,4 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
                     GREEN);
     }
   }
-
-  DrawText("Movimiento: WASD.", 10, 10, 20, WHITE);
-
-  EndDrawing();
-}
-
-void GameView::drawPlayer(const std::shared_ptr<Player> &player) {
-  DrawRectangle((int)player->getX(), (int)player->getY(), 40, 40, BLACK);
 }

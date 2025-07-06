@@ -19,7 +19,7 @@ void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
     dy -= velocidad;
 
   player->move(dx, dy);
-
+  fallBlocksUpdate(entities);
   manageColission(entities);
 
   entities.erase(std::remove_if(entities.begin(), entities.end(),
@@ -27,6 +27,15 @@ void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
                                   return !e->isAlive();
                                 }),
                  entities.end());
+}
+
+void GameController::fallBlocksUpdate(
+    std::vector<std::shared_ptr<Entity>> &entities) {
+  for (auto &entity : entities) {
+    if (dynamic_cast<Bloque *>(entity.get()) != nullptr) {
+      entity->move(entity->getX(), 1);
+    }
+  }
 }
 
 Rectangle getEntityRectangle(const Entity &e) {
