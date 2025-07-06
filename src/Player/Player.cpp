@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Position/Position.h"
 
 Player::Player(std::string nombre, int puntosVida) {
   nombre = nombre;

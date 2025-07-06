@@ -5,7 +5,7 @@
 
 class GameController {
 public:
-  void update(Player &player);
+  void updatePlayer(Player &player);
 };
 
 #endif

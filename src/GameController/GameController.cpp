@@ -2,7 +2,7 @@
 #include "raylib.h"
 
 // GameController.cpp
-void GameController::update(Player &player) {
+void GameController::updatePlayer(Player &player) {
   const float velocidad = player.getSpeed() * GetFrameTime();
 
   float dx = 0, dy = 0;
