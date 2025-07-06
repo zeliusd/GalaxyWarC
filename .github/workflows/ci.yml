@@ -1,10 +1,9 @@
-name: C++ CI
+name: C++ CI + Release
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    tags:
+      - 'v*'   # solo se ejecuta en tags como v1.0.0
 
 jobs:
   build:
@@ -15,7 +14,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
       with:
-        submodules: true   # ✅ Importante para que raylib se clone también
+        submodules: true
         fetch-depth: 1
 
     - name: Install dependencies
@@ -29,11 +28,14 @@ jobs:
     - name: Build
       run: cmake --build build
 
-    - name: Run tests (opcional)
+    - name: Rename binary (si es necesario)
       run: |
-        if [ -f build/tests ]; then
-          ./build/tests
-        else
-          echo "No se encontraron tests"
-        fi
+        chmod +x build/juego
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: build/juego
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
