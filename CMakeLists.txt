@@ -13,6 +13,9 @@ set(MODEL_SOURCES
   src/Blocks/Bloque.cpp
   src/Inventory/Inventario.cpp
   src/Player/Player.cpp
+  src/Position/Position.cpp
+  src/GameController/GameController.cpp
+  src/GameView/GameView.cpp
 )
 
 # === Ejecutable de juego ===
