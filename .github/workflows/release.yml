@@ -1,13 +1,12 @@
-name: C++ CI
+name: Release Build
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    tags:
+      - 'v*'  # Se ejecuta solo si pusheás un tag tipo v1.0.0
 
 jobs:
-  build:
+  build-and-release:
 
     runs-on: ubuntu-latest
 
@@ -29,11 +28,15 @@ jobs:
     - name: Build
       run: cmake --build build
 
-    - name: Run tests (opcional)
+    - name: Preparar binario
       run: |
-        if [ -f build/tests ]; then
-          ./build/tests
-        else
-          echo "No se encontraron tests"
-        fi
+        chmod +x build/juego
+        mv build/juego build/juego-linux
+
+    - name: Crear Release en GitHub
+      uses: softprops/action-gh-release@v2
+      with:
+        files: build/juego-linux
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
