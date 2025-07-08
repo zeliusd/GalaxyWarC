@@ -1,4 +1,5 @@
 #include "GameController.h"
+#include "../Entity/Boss/Boss.h"
 #include "../Entity/Bullet/Bullet.h"
 #include "Blocks/Bloque.h"
 #include "Entity/Entity.h"
@@ -8,9 +9,8 @@
 void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
                             std::shared_ptr<Player> &player) {
 
-  if (entities.size() == 1) {
-  }
   updatePlayer(entities, player);
+  spawnBoss(entities);
   fallBlocksUpdate(entities);
   manageColission(entities);
 
@@ -117,4 +117,18 @@ void GameController::manageColission(
       }
     }
   }
+}
+
+void GameController::spawnBoss(std::vector<std::shared_ptr<Entity>> &entities) {
+  if (bossHasSpawned)
+    return;
+  for (auto &entity : entities) {
+    if (dynamic_cast<Bloque *>(entity.get()) != nullptr ||
+        dynamic_cast<Boss *>(entity.get())) {
+      return;
+    }
+  }
+  float centerX = GetScreenWidth() / 2.0f;
+  entities.push_back(std::make_shared<Boss>(centerX, 100));
+  this->bossHasSpawned = true;
 }

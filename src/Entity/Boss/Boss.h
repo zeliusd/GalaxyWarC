@@ -7,13 +7,14 @@
 #include "../Entity.h"
 #include <memory>
 
-class Boss : public Entity, public std::enable_shared_from_this<Player> {
+class Boss : public Entity {
 private:
   std::shared_ptr<Position> position;
   float speed;
   float width, height;
   bool alive;
-  int lives;
+  int health;
+  int maxHealth;
 
 public:
   Boss(float x = 0, float y = 0);
@@ -36,7 +37,8 @@ public:
   std::shared_ptr<Bullet> shotBullet();
   bool isAlive() const override;
 
-  int getLives() const;
+  int getHealth() const;
+  int getMaxHealth() const;
 };
 
 #endif

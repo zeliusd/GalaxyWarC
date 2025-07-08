@@ -17,6 +17,7 @@ set(MODEL_SOURCES
   src/GameController/GameController.cpp
   src/GameView/GameView.cpp
   src/Entity/Bullet/Bullet.cpp
+  src/Entity/Boss/Boss.cpp
 )
 
 # === Ejecutable de juego ===

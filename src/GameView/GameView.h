@@ -12,6 +12,7 @@ class GameView {
 private:
   void drawPlayer(const std::shared_ptr<Player> &player);
   void drawEntities(const std::vector<std::shared_ptr<Entity>> &entities);
+  void drawBossHealthBar(const Boss &boss);
 
 public:
   void draw(const std::vector<std::shared_ptr<Entity>> &entities,
