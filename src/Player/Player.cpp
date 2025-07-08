@@ -8,6 +8,7 @@ Player::Player(float x, float y) {
   this->width = 40;
   this->height = 40;
   this->points = 0;
+  this->alive = true;
 }
 
 std::shared_ptr<Bloque> Player::tirarBloque(int indiceBloque) {

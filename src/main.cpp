@@ -38,9 +38,12 @@ int main() {
   GameView view;
 
   while (!WindowShouldClose()) {
-    if (player->isAlive())
+    if (player->isAlive()) {
       controller.update(entidades, player);
-    else {
+    }
+
+    view.draw(entidades, player);
+    if (!player->isAlive()) {
       DrawRectangle(0, 0, screenWidth, screenHeight, Color{0, 0, 0, 150});
 
       DrawText("GAME OVER", screenWidth / 2 - MeasureText("GAME OVER", 40) / 2,
@@ -49,7 +52,6 @@ int main() {
                screenWidth / 2 - MeasureText("Presiona ESC para salir", 20) / 2,
                screenHeight / 2 + 10, 20, WHITE);
     }
-    view.draw(entidades, player);
   }
 
   CloseWindow();
