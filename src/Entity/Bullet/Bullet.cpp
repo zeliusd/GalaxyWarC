@@ -12,7 +12,7 @@ float Bullet::getHeight() const { return height; }
 
 void Bullet::onCollision(Entity &another) { another.collideWith(*this); }
 
-void Bullet::collideWith(Bullet &bullet) {}
+void Bullet::collideWith(Bullet &bullet) { this->alive = false; }
 void Bullet::collideWith(Player &player) {}
 void Bullet::collideWith(Boss &boss) { this->alive = false; }
 

@@ -12,7 +12,8 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
   drawPlayer(player);
   drawEntities(entities);
 
-  std::string puntosTexto = "Puntos: " + std::to_string(player->getPoints());
+  std::string puntosTexto = "Puntos: " + std::to_string(player->getPoints()) +
+                            " Entities: " + std::to_string(entities.size());
   DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
 
   EndDrawing();

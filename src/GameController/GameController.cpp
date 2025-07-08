@@ -8,6 +8,8 @@
 void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
                             std::shared_ptr<Player> &player) {
 
+  if (entities.size() == 1) {
+  }
   updatePlayer(entities, player);
   fallBlocksUpdate(entities);
   manageColission(entities);
@@ -75,6 +77,10 @@ void GameController::fallBlocksUpdate(
     }
     if (dynamic_cast<Bullet *>(entity.get()) != nullptr) {
       entity->move(entity->getX(), -450 * GetFrameTime());
+      if (entity->getY() + entity->getHeight() / 2 < 0) {
+        entity->onCollision(*entity);
+        std::cout << "Se eliminó una bala fuera de la pantalla\n";
+      }
     }
   }
 }
