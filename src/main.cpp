@@ -39,10 +39,11 @@ int main() {
 
   while (!WindowShouldClose()) {
     if (player->isAlive()) {
+      BeginDrawing();
       controller.update(entidades, player);
+      view.draw(entidades, player);
     }
 
-    view.draw(entidades, player);
     if (!player->isAlive()) {
       DrawRectangle(0, 0, screenWidth, screenHeight, Color{0, 0, 0, 150});
 
@@ -51,6 +52,7 @@ int main() {
       DrawText("Presiona ESC para salir",
                screenWidth / 2 - MeasureText("Presiona ESC para salir", 20) / 2,
                screenHeight / 2 + 10, 20, WHITE);
+      EndDrawing();
     }
   }
 
