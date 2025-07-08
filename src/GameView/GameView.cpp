@@ -2,8 +2,12 @@
 #include "../Blocks/Bloque.h"
 #include "../Entity/Boss/Boss.h"
 #include "../Entity/Bullet/Bullet.h"
-#include "raylib.h"
+#include <iostream>
 #include <string>
+
+GameView::GameView() { playerTexture = LoadTexture("nave.png"); }
+
+GameView::~GameView() { UnloadTexture(playerTexture); }
 
 void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
                     const std::shared_ptr<Player> &player) {
@@ -26,9 +30,13 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
 }
 
 void GameView::drawPlayer(const std::shared_ptr<Player> &player) {
-  float x = player->getX() - 40 / 2.0f;
-  float y = player->getY() - 40 / 2.0f;
-  DrawRectangle((int)x, (int)y, 40, 40, BLACK);
+  Rectangle source = {0, 0, (float)playerTexture.width,
+                      (float)playerTexture.height};
+  Rectangle dest = {player->getX() - player->getWidth() / 2.0f,
+                    player->getY() - player->getHeight() / 2.0f,
+                    player->getWidth(), player->getHeight()};
+  Vector2 origin = {0, 0};
+  DrawTexturePro(playerTexture, source, dest, origin, 0.0f, WHITE);
 }
 
 void GameView::drawEntities(
@@ -65,12 +73,9 @@ void GameView::drawBossHealthBar(const Boss &boss) {
   float healthRatio = (float)boss.getHealth() / boss.getMaxHealth();
   float healthWidth = barWidth * healthRatio;
 
-  // Fondo de la barra
   DrawRectangle(x, y, barWidth, barHeight, DARKGRAY);
 
-  // Barra de vida
   DrawRectangle(x, y, healthWidth, barHeight, RED);
 
-  // Borde
   DrawRectangleLines(x, y, barWidth, barHeight, WHITE);
 }

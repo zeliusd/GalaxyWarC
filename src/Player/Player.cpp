@@ -5,8 +5,8 @@ Player::Player(float x, float y) {
   this->indiceActualInventario = 0;
   this->position = std::make_shared<Position>(x, y);
   this->speed = 300.0f;
-  this->width = 40;
-  this->height = 40;
+  this->width = 60;
+  this->height = 60;
   this->points = 0;
   this->alive = true;
 }

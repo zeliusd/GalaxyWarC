@@ -4,6 +4,7 @@
 
 #include "../Entity/Entity.h"
 #include "../Player/Player.h"
+#include "raylib.h"
 #include <memory>
 #include <vector>
 
@@ -15,8 +16,11 @@ private:
   void drawBossHealthBar(const Boss &boss);
 
 public:
+  GameView();
+  ~GameView();
   void draw(const std::vector<std::shared_ptr<Entity>> &entities,
             const std::shared_ptr<Player> &player);
+  Texture2D playerTexture;
 };
 
 #endif

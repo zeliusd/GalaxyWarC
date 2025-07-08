@@ -72,14 +72,12 @@ void GameController::fallBlocksUpdate(
       entity->move(entity->getX(), 100 * GetFrameTime());
       if (entity->getY() - entity->getHeight() / 2 > GetScreenHeight()) {
         entity->onCollision(*entity);
-        std::cout << "Se eliminó un bloque fuera de la pantalla\n";
       }
     }
     if (dynamic_cast<Bullet *>(entity.get()) != nullptr) {
       entity->move(entity->getX(), -450 * GetFrameTime());
       if (entity->getY() + entity->getHeight() / 2 < 0) {
         entity->onCollision(*entity);
-        std::cout << "Se eliminó una bala fuera de la pantalla\n";
       }
     }
   }
