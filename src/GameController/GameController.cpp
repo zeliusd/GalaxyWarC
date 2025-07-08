@@ -92,10 +92,6 @@ bool checkCollisionEntidad(const Entity &a, const Entity &b) {
   Rectangle r1 = getEntityRectangle(a);
   Rectangle r2 = getEntityRectangle(b);
 
-  // 👇 Debug visual (opcional, quitar si ya lo hacés en la vista)
-  DrawRectangleLines(r1.x, r1.y, r1.width, r1.height, RED);
-  DrawRectangleLines(r2.x, r2.y, r2.width, r2.height, RED);
-
   return CheckCollisionRecs(r1, r2);
 }
 
@@ -127,6 +123,6 @@ void GameController::spawnBoss(std::vector<std::shared_ptr<Entity>> &entities) {
     }
   }
   float centerX = GetScreenWidth() / 2.0f;
-  entities.push_back(std::make_shared<Boss>(centerX, 100));
+  entities.push_back(std::make_shared<Boss>(centerX, 140));
   this->bossHasSpawned = true;
 }

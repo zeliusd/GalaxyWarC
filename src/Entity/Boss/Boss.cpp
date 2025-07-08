@@ -4,11 +4,11 @@
 Boss::Boss(float x, float y) {
   this->position = std::make_shared<Position>(x, y);
   this->speed = 300.0f;
-  this->width = 100;
-  this->height = 50;
+  this->width = 180;
+  this->height = 180;
   this->alive = true;
-  this->health = 10;
-  this->maxHealth = 10;
+  this->health = 100;
+  this->maxHealth = 100;
 }
 
 void Boss::move(float dx, float dy) { position->move(dx, dy); }

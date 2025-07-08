@@ -1,7 +1,7 @@
 #include "Bloque.h"
 
 Bloque::Bloque(float x, float y)
-    : position(std::make_shared<Position>(x, y)), width(20), height(20),
+    : position(std::make_shared<Position>(x, y)), width(40), height(40),
       alive(true) {}
 
 float Bloque::getX() const { return position->x; }

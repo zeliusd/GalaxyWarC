@@ -38,6 +38,7 @@ public:
   void collideWith(Player &player) override;
   void collideWith(Bullet &bullet) override;
   void collideWith(Boss &boss) override;
+
   void incrementScore(int points);
   std::shared_ptr<Bullet> shotBullet();
   bool isAlive() const override;

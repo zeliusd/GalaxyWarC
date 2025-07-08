@@ -14,6 +14,8 @@ private:
   void drawPlayer(const std::shared_ptr<Player> &player);
   void drawEntities(const std::vector<std::shared_ptr<Entity>> &entities);
   void drawBossHealthBar(const Boss &boss);
+  bool debug = false;
+  void drawCollider(const std::vector<std::shared_ptr<Entity>> &entities);
 
 public:
   GameView();
@@ -21,6 +23,9 @@ public:
   void draw(const std::vector<std::shared_ptr<Entity>> &entities,
             const std::shared_ptr<Player> &player);
   Texture2D playerTexture;
+  Texture2D asteriodTexture;
+  Texture2D backgroundTexture;
+  Texture2D bossTexture;
 };
 
 #endif
