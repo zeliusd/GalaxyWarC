@@ -16,6 +16,8 @@ std::shared_ptr<Bloque> createBlock() {
 }
 
 int main() {
+  const int screenWidth = 800;
+  const int screenHeight = 600;
   InitWindow(800, 600, "Gameplay");
   SetTargetFPS(60);
 
@@ -24,7 +26,7 @@ int main() {
 
   std::vector<std::shared_ptr<Entity>> entidades;
 
-  std::shared_ptr<Player> player = std::make_shared<Player>(300, 300);
+  std::shared_ptr<Player> player = std::make_shared<Player>(420, 500);
 
   for (int i = 0; i < 15; ++i) {
     entidades.push_back(createBlock());
@@ -38,6 +40,15 @@ int main() {
   while (!WindowShouldClose()) {
     if (player->isAlive())
       controller.update(entidades, player);
+    else {
+      DrawRectangle(0, 0, screenWidth, screenHeight, Color{0, 0, 0, 150});
+
+      DrawText("GAME OVER", screenWidth / 2 - MeasureText("GAME OVER", 40) / 2,
+               screenHeight / 2 - 40, 40, RED);
+      DrawText("Presiona ESC para salir",
+               screenWidth / 2 - MeasureText("Presiona ESC para salir", 20) / 2,
+               screenHeight / 2 + 10, 20, WHITE);
+    }
     view.draw(entidades, player);
   }
 

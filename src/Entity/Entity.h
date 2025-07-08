@@ -13,7 +13,6 @@ public:
   virtual void collideWith(class Player &player) = 0;
   virtual void collideWith(class Bloque &block) = 0;
   virtual void collideWith(class Bullet &bullet) = 0;
-
   virtual bool isAlive() const = 0;
   virtual void move(float x, float y) = 0;
   virtual ~Entity() = default;

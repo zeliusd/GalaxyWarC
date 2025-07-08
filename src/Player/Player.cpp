@@ -4,7 +4,7 @@ Player::Player(float x, float y) {
   this->inventario = std::make_unique<Inventario>();
   this->indiceActualInventario = 0;
   this->position = std::make_shared<Position>(x, y);
-  this->speed = 200.0f;
+  this->speed = 300.0f;
   this->width = 40;
   this->height = 40;
   this->points = 0;
