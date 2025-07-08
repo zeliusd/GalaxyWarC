@@ -41,6 +41,7 @@ void Player::onCollision(Entity &another) { another.collideWith(*this); }
 void Player::collideWith(Bloque &bloque) { this->alive = false; }
 void Player::collideWith(Player &player) { return; }
 void Player::collideWith(Bullet &bullet) { return; }
+void Player::collideWith(Boss &boss) { this->alive = false; }
 
 std::shared_ptr<Bullet> Player::shotBullet() {
   auto bullet = std::make_shared<Bullet>(

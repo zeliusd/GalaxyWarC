@@ -25,6 +25,8 @@ public:
   void collideWith(Player &player) override;
   void collideWith(Bloque &bloque) override;
   void collideWith(Bullet &bullet) override;
+  void collideWith(Boss &boss) override;
+
   void move(float x, float y) override;
   bool isAlive() const override;
 };

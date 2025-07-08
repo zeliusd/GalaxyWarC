@@ -14,6 +14,7 @@ void Bullet::onCollision(Entity &another) { another.collideWith(*this); }
 
 void Bullet::collideWith(Bullet &bullet) {}
 void Bullet::collideWith(Player &player) {}
+void Bullet::collideWith(Boss &boss) { this->alive = false; }
 
 void Bullet::collideWith(Bloque &bloque) {
   this->alive = false;
