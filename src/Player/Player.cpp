@@ -35,10 +35,9 @@ float Player::getHeight() const { return height; }
 
 int Player::getPoints() const { return this->points; }
 
-void Player::onCollision(Entity &another) {
-  if (dynamic_cast<Bloque *>(&another) != nullptr) {
-    this->points++;
-  }
-}
+void Player::onCollision(Entity &another) { another.collideWith(*this); }
+
+void Player::collideWith(Bloque &bloque) { this->points++; }
+void Player::collideWith(Player &player) { return; }
 
 bool Player::isAlive() const { return alive; }

@@ -22,6 +22,8 @@ public:
   float getHeight() const override;
 
   void onCollision(Entity &another) override;
+  void collideWith(Player &player) override;
+  void collideWith(Bloque &bloque) override;
   void move(float x, float y) override;
   bool isAlive() const override;
 };

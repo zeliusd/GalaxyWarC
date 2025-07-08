@@ -67,18 +67,6 @@ void GameController::manageColission(
 
         a->onCollision(*b);
         b->onCollision(*a);
-
-        Player *p = dynamic_cast<Player *>(a.get());
-        Bloque *bloque = dynamic_cast<Bloque *>(b.get());
-        if (p && bloque && !bloque->isAlive()) {
-          // p->addPuntos(10);
-        }
-
-        p = dynamic_cast<Player *>(b.get());
-        bloque = dynamic_cast<Bloque *>(a.get());
-        if (p && bloque && !bloque->isAlive()) {
-          // p->addPuntos(10);
-        }
       }
     }
   }

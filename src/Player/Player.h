@@ -25,12 +25,16 @@ public:
   void move(float dx, float dy) override;
   float getSpeed() const;
   int getPoints() const;
+
   float getX() const override;
   float getY() const override;
   float getWidth() const override;
   float getHeight() const override;
 
   void onCollision(Entity &another) override;
+
+  void collideWith(Bloque &bloque) override;
+  void collideWith(Player &player) override;
   bool isAlive() const override;
 };
 
