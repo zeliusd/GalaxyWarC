@@ -1,11 +1,28 @@
 #include "GameController.h"
+#include "../Entity/Bullet/Bullet.h"
 #include "Blocks/Bloque.h"
 #include "Entity/Entity.h"
 #include "raylib.h"
 #include <algorithm>
 #include <iostream>
 void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
-                            std::shared_ptr<Player> player) {
+                            std::shared_ptr<Player> &player) {
+
+  updatePlayer(entities, player);
+  fallBlocksUpdate(entities);
+  manageColission(entities);
+
+  entities.erase(std::remove_if(entities.begin(), entities.end(),
+                                [](const std::shared_ptr<Entity> &e) {
+                                  return !e->isAlive();
+                                }),
+                 entities.end());
+}
+
+void GameController::updatePlayer(
+    std::vector<std::shared_ptr<Entity>> &entities,
+    std::shared_ptr<Player> &player) {
+
   const float velocidad = player->getSpeed() * GetFrameTime();
 
   float dx = 0, dy = 0;
@@ -18,15 +35,32 @@ void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
   if (IsKeyDown(KEY_W))
     dy -= velocidad;
 
-  player->move(dx, dy);
-  fallBlocksUpdate(entities);
-  manageColission(entities);
+  static double tiempoUltimoDisparo = 0;
+  double tiempoActual = GetTime();  // en segundos
+  double tiempoEntreDisparos = 0.3; // medio segundo entre disparos
 
-  entities.erase(std::remove_if(entities.begin(), entities.end(),
-                                [](const std::shared_ptr<Entity> &e) {
-                                  return !e->isAlive();
-                                }),
-                 entities.end());
+  if (IsKeyDown(KEY_SPACE) &&
+      (tiempoActual - tiempoUltimoDisparo) > tiempoEntreDisparos) {
+    entities.push_back(player->shotBullet());
+    tiempoUltimoDisparo = tiempoActual;
+  }
+
+  player->move(dx, dy);
+
+  float x = player->getX();
+  float y = player->getY();
+  float w = player->getWidth();
+  float h = player->getHeight();
+  if (x < w / 2.0f)
+    x = w / 2.0f;
+  if (x > GetScreenWidth() - w / 2.0f)
+    x = GetScreenWidth() - w / 2.0f;
+  if (y < h / 2.0f)
+    y = h / 2.0f;
+  if (y > GetScreenHeight() - h / 2.0f)
+    y = GetScreenHeight() - h / 2.0f;
+
+  player->move(x - player->getX(), y - player->getY());
 }
 
 void GameController::fallBlocksUpdate(
@@ -34,6 +68,9 @@ void GameController::fallBlocksUpdate(
   for (auto &entity : entities) {
     if (dynamic_cast<Bloque *>(entity.get()) != nullptr) {
       entity->move(entity->getX(), 100 * GetFrameTime());
+    }
+    if (dynamic_cast<Bullet *>(entity.get()) != nullptr) {
+      entity->move(entity->getX(), -450 * GetFrameTime());
     }
   }
 }

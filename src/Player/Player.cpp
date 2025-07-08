@@ -37,7 +37,17 @@ int Player::getPoints() const { return this->points; }
 
 void Player::onCollision(Entity &another) { another.collideWith(*this); }
 
-void Player::collideWith(Bloque &bloque) { this->points++; }
+void Player::collideWith(Bloque &bloque) { this->alive = false; }
 void Player::collideWith(Player &player) { return; }
+void Player::collideWith(Bullet &bullet) { return; }
+
+std::shared_ptr<Bullet> Player::shotBullet() {
+  auto bullet = std::make_shared<Bullet>(
+      this->position->x, this->position->y - 2, shared_from_this());
+
+  return bullet;
+}
+
+void Player::incrementScore(int points) { this->points += points; }
 
 bool Player::isAlive() const { return alive; }

@@ -1,20 +1,20 @@
+#ifndef BULLET_H
+#define BULLET_H
 
-
-#ifndef BLOQUE_H
-#define BLOQUE_H
-
-#include "../Entity/Entity.h"
-#include "../Position/Position.h"
+#include "../../Blocks/Bloque.h"
+#include "../../Position/Position.h"
+#include "../Entity.h"
 #include <memory>
 
-class Bloque : public Entity {
+class Bullet : public Entity {
 private:
   std::shared_ptr<Position> position;
   float width, height;
   bool alive;
+  std::weak_ptr<Player> player;
 
 public:
-  Bloque(float x = 0, float y = 0);
+  Bullet(float x, float y, std::shared_ptr<Player> shooter);
 
   float getX() const override;
   float getY() const override;
@@ -25,6 +25,7 @@ public:
   void collideWith(Player &player) override;
   void collideWith(Bloque &bloque) override;
   void collideWith(Bullet &bullet) override;
+
   void move(float x, float y) override;
   bool isAlive() const override;
 };

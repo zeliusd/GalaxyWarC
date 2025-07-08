@@ -36,7 +36,8 @@ int main() {
   GameView view;
 
   while (!WindowShouldClose()) {
-    controller.update(entidades, player);
+    if (player->isAlive())
+      controller.update(entidades, player);
     view.draw(entidades, player);
   }
 

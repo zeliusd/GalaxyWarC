@@ -1,5 +1,6 @@
 #include "GameView.h"
 #include "../Blocks/Bloque.h"
+#include "../Entity/Bullet/Bullet.h"
 #include "raylib.h"
 #include <string>
 
@@ -9,7 +10,7 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
   ClearBackground(BLUE);
 
   drawPlayer(player);
-  drawBlocks(entities);
+  drawEntities(entities);
 
   std::string puntosTexto = "Puntos: " + std::to_string(player->getPoints());
   DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
@@ -23,14 +24,20 @@ void GameView::drawPlayer(const std::shared_ptr<Player> &player) {
   DrawRectangle((int)x, (int)y, 40, 40, BLACK);
 }
 
-void GameView::drawBlocks(
+void GameView::drawEntities(
     const std::vector<std::shared_ptr<Entity>> &entities) {
   for (auto &entity : entities) {
+
     if (dynamic_cast<Bloque *>(entity.get())) {
       float x = entity->getX() - entity->getWidth() / 2.0f;
       float y = entity->getY() - entity->getHeight() / 2.0f;
       DrawRectangle((int)x, (int)y, entity->getWidth(), entity->getHeight(),
                     GREEN);
+    }
+    if (dynamic_cast<Bullet *>(entity.get())) {
+      float x = entity->getX();
+      float y = entity->getY();
+      DrawCircle((int)x, (int)y, 10, YELLOW);
     }
   }
 }

@@ -13,6 +13,7 @@ void Bloque::onCollision(Entity &another) { another.collideWith(*this); }
 
 void Bloque::collideWith(Player &player) { this->alive = false; }
 void Bloque::collideWith(Bloque &bloque) { return; }
+void Bloque::collideWith(Bullet &bullet) { this->alive = false; }
 
 void Bloque::move(float x, float y) {
   position->x = x;

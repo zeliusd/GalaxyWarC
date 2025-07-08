@@ -1,12 +1,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "../Blocks/Bloque.h"
+#include "../Entity/Bullet/Bullet.h"
 #include "../Entity/Entity.h"
 #include "../Inventory/Inventario.h"
 #include "../Position/Position.h"
 #include <memory>
 
-class Player : public Entity {
+class Player : public Entity, public std::enable_shared_from_this<Player> {
 private:
   std::unique_ptr<Inventario> inventario;
   int indiceActualInventario;
@@ -35,6 +36,9 @@ public:
 
   void collideWith(Bloque &bloque) override;
   void collideWith(Player &player) override;
+  void collideWith(Bullet &bullet) override;
+  void incrementScore(int points);
+  std::shared_ptr<Bullet> shotBullet();
   bool isAlive() const override;
 };
 
