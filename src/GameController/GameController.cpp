@@ -10,6 +10,7 @@
 GameController::GameController() {
   this->actualMusic = LoadMusicStream("src/resources/tracks/spaceship.wav");
   PlayMusicStream(this->actualMusic);
+  this->shotSound = LoadSound("src/resources/tracks/Fire1.mp3");
 }
 
 void GameController::shutdown() {
@@ -55,6 +56,7 @@ void GameController::updatePlayer(
   if (IsKeyDown(KEY_SPACE) &&
       (tiempoActual - tiempoUltimoDisparo) > tiempoEntreDisparos) {
     entities.push_back(player->shotBullet());
+    PlaySound(shotSound);
     tiempoUltimoDisparo = tiempoActual;
   }
 

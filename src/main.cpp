@@ -29,7 +29,7 @@ int main() {
 
   std::shared_ptr<Player> player = std::make_shared<Player>(420, 500);
 
-  for (int i = 0; i < 15; ++i) {
+  for (int i = 0; i < 40; ++i) {
     entidades.push_back(createBlock());
   }
 

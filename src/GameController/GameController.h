@@ -14,6 +14,7 @@ private:
                     std::shared_ptr<Player> &player);
   void spawnBoss(std::vector<std::shared_ptr<Entity>> &entities);
   Music actualMusic;
+  Sound shotSound;
   void shutdown();
 
 public:

@@ -7,8 +7,8 @@ Boss::Boss(float x, float y) {
   this->width = 180;
   this->height = 180;
   this->alive = true;
-  this->health = 100;
-  this->maxHealth = 100;
+  this->health = 15;
+  this->maxHealth = 15;
 }
 
 void Boss::move(float dx, float dy) { position->move(dx, dy); }
