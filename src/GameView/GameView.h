@@ -12,7 +12,7 @@ class GameView {
 
 private:
   Texture2D playerTexture;
-  Texture2D asteriodTexture;
+  Texture2D asteroidTexture;
   Texture2D backgroundTexture;
   Texture2D bossTexture;
   Texture2D bulletTexture;

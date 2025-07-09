@@ -2,19 +2,44 @@
 #include "../Blocks/Bloque.h"
 #include "../Entity/Boss/Boss.h"
 #include "../Entity/Bullet/Bullet.h"
+#include "../resources/asteroid.c"
+#include "../resources/boss.c"
+#include "../resources/bullet.c"
+#include "../resources/nave.c"
+#include "../resources/space1.c"
 #include <string>
 
 GameView::GameView() {
-  playerTexture = LoadTexture("src/resources/nave.png");
-  asteriodTexture = LoadTexture("src/resources/asteroid.png");
-  backgroundTexture = LoadTexture("src/resources/space1.png");
-  bossTexture = LoadTexture("src/resources/boss.png");
-  bulletTexture = LoadTexture("src/resources/bullet.png");
+  Image naveImage = LoadImageFromMemory(".png", nave_png, nave_png_len);
+  playerTexture = LoadTextureFromImage(naveImage);
+  UnloadImage(naveImage);
+
+  Image asteroidImage =
+      LoadImageFromMemory(".png", asteroid_png, asteroid_png_len);
+
+  asteroidTexture = LoadTextureFromImage(asteroidImage);
+  UnloadImage(asteroidImage);
+
+  Image backgroundImage =
+      LoadImageFromMemory(".png", space1_png, space1_png_len);
+
+  backgroundTexture = LoadTextureFromImage(backgroundImage);
+  UnloadImage(backgroundImage);
+
+  Image bossImage = LoadImageFromMemory(".png", boss_png, boss_png_len);
+
+  bossTexture = LoadTextureFromImage(bossImage);
+  UnloadImage(bossImage);
+
+  Image bulletImage = LoadImageFromMemory(".png", bullet_png, bullet_png_len);
+
+  bulletTexture = LoadTextureFromImage(bulletImage);
+  UnloadImage(bulletImage);
 }
 
 GameView::~GameView() {
   UnloadTexture(playerTexture);
-  UnloadTexture(asteriodTexture);
+  UnloadTexture(asteroidTexture);
   UnloadTexture(backgroundTexture);
   UnloadTexture(bossTexture);
   UnloadTexture(bulletTexture);
@@ -63,13 +88,13 @@ void GameView::drawEntities(
   for (auto &entity : entities) {
 
     if (dynamic_cast<Bloque *>(entity.get())) {
-      Rectangle source = {0, 0, (float)asteriodTexture.width,
-                          (float)asteriodTexture.height};
+      Rectangle source = {0, 0, (float)asteroidTexture.width,
+                          (float)asteroidTexture.height};
       Rectangle dest = {entity->getX() - entity->getWidth() / 2.0f,
                         entity->getY() - entity->getHeight() / 2.0f,
                         entity->getWidth(), entity->getHeight()};
       Vector2 origin = {0, 0};
-      DrawTexturePro(asteriodTexture, source, dest, origin, 0.0f, WHITE);
+      DrawTexturePro(asteroidTexture, source, dest, origin, 0.0f, WHITE);
     }
     if (dynamic_cast<Bullet *>(entity.get())) {
       Rectangle source = {0, 0, (float)bulletTexture.width,

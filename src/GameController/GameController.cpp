@@ -1,6 +1,9 @@
 #include "GameController.h"
 #include "../Entity/Boss/Boss.h"
 #include "../Entity/Bullet/Bullet.h"
+#include "../resources/tracks/Fire1.c"
+#include "../resources/tracks/bosstrack.c"
+#include "../resources/tracks/spaceship.c"
 #include "Blocks/Bloque.h"
 #include "Entity/Entity.h"
 #include "raylib.h"
@@ -8,14 +11,19 @@
 #include <iostream>
 
 GameController::GameController() {
-  this->actualMusic = LoadMusicStream("src/resources/tracks/spaceship.wav");
+  this->actualMusic =
+      LoadMusicStreamFromMemory(".wav", spaceship_wav, spaceship_wav_len);
   PlayMusicStream(this->actualMusic);
-  this->shotSound = LoadSound("src/resources/tracks/Fire1.mp3");
+
+  Wave fireWave = LoadWaveFromMemory(".wav", Fire1_wav, Fire1_wav_len);
+  shotSound = LoadSoundFromWave(fireWave);
+  UnloadWave(fireWave);
 }
 
 void GameController::shutdown() {
   StopMusicStream(actualMusic);
   UnloadMusicStream(actualMusic);
+  UnloadSound(shotSound);
 }
 void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
                             std::shared_ptr<Player> &player) {
@@ -141,6 +149,7 @@ void GameController::spawnBoss(std::vector<std::shared_ptr<Entity>> &entities) {
   StopMusicStream(actualMusic);
   UnloadMusicStream(actualMusic);
 
-  actualMusic = LoadMusicStream("src/resources/tracks/bosstrack.mp3");
+  actualMusic =
+      LoadMusicStreamFromMemory(".mp3", bosstrack_mp3, bosstrack_mp3_len);
   PlayMusicStream(actualMusic);
 }
