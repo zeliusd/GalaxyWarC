@@ -19,6 +19,7 @@ int main() {
   const int screenWidth = 800;
   const int screenHeight = 600;
   InitWindow(800, 600, "Gameplay");
+  InitAudioDevice();
   SetTargetFPS(60);
 
   unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -38,6 +39,7 @@ int main() {
   GameView view;
 
   while (!WindowShouldClose()) {
+
     if (player->isAlive()) {
       BeginDrawing();
       controller.update(entidades, player);
@@ -55,6 +57,7 @@ int main() {
       EndDrawing();
     }
   }
+  CloseAudioDevice();
 
   CloseWindow();
   return 0;

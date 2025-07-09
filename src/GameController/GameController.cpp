@@ -6,8 +6,19 @@
 #include "raylib.h"
 #include <algorithm>
 #include <iostream>
+
+GameController::GameController() {
+  this->actualMusic = LoadMusicStream("src/resources/tracks/spaceship.wav");
+  PlayMusicStream(this->actualMusic);
+}
+
+void GameController::shutdown() {
+  StopMusicStream(actualMusic);
+  UnloadMusicStream(actualMusic);
+}
 void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
                             std::shared_ptr<Player> &player) {
+  UpdateMusicStream(actualMusic);
 
   updatePlayer(entities, player);
   spawnBoss(entities);
@@ -125,4 +136,9 @@ void GameController::spawnBoss(std::vector<std::shared_ptr<Entity>> &entities) {
   float centerX = GetScreenWidth() / 2.0f;
   entities.push_back(std::make_shared<Boss>(centerX, 140));
   this->bossHasSpawned = true;
+  StopMusicStream(actualMusic);
+  UnloadMusicStream(actualMusic);
+
+  actualMusic = LoadMusicStream("src/resources/tracks/bosstrack.mp3");
+  PlayMusicStream(actualMusic);
 }
