@@ -2,7 +2,6 @@
 #include "../Blocks/Bloque.h"
 #include "../Entity/Boss/Boss.h"
 #include "../Entity/Bullet/Bullet.h"
-#include <iostream>
 #include <string>
 
 GameView::GameView() {
@@ -10,11 +9,7 @@ GameView::GameView() {
   asteriodTexture = LoadTexture("src/resources/asteroid.png");
   backgroundTexture = LoadTexture("src/resources/space1.png");
   bossTexture = LoadTexture("src/resources/boss.png");
-  if (asteriodTexture.id <= 0) {
-    std::cerr << "ERROR: No se pudo cargar la textura nave.png\n";
-  } else {
-    std::cout << "Textura asteroid.png cargada correctamente.\n";
-  }
+  bulletTexture = LoadTexture("src/resources/bullet.png");
 }
 
 GameView::~GameView() {
@@ -22,6 +17,7 @@ GameView::~GameView() {
   UnloadTexture(asteriodTexture);
   UnloadTexture(backgroundTexture);
   UnloadTexture(bossTexture);
+  UnloadTexture(bulletTexture);
 }
 
 void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
@@ -30,13 +26,9 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
   ClearBackground(BLUE);
   DrawTexturePro(
       backgroundTexture,
-      {0, 0, (float)backgroundTexture.width,
-       (float)backgroundTexture.height},                         // source
-      {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, // destination
-      {0, 0},                                                    // origin
-      0.0f,                                                      // rotation
-      WHITE                                                      // tint
-  );
+      {0, 0, (float)backgroundTexture.width, (float)backgroundTexture.height},
+      {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0.0f,
+      WHITE);
   drawPlayer(player);
   drawEntities(entities);
 
@@ -49,7 +41,10 @@ void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
                             " Entities: " + std::to_string(entities.size());
   DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
 
-  drawCollider(entities);
+  if (this->debug) {
+
+    drawCollider(entities);
+  }
   EndDrawing();
 }
 
@@ -77,9 +72,13 @@ void GameView::drawEntities(
       DrawTexturePro(asteriodTexture, source, dest, origin, 0.0f, WHITE);
     }
     if (dynamic_cast<Bullet *>(entity.get())) {
-      float x = entity->getX();
-      float y = entity->getY();
-      DrawCircle((int)x, (int)y, 10, YELLOW);
+      Rectangle source = {0, 0, (float)bulletTexture.width,
+                          (float)bulletTexture.height};
+      Rectangle dest = {entity->getX() - entity->getWidth() / 2.0f,
+                        entity->getY() - entity->getHeight() / 2.0f,
+                        entity->getWidth(), entity->getHeight()};
+      Vector2 origin = {0, 0};
+      DrawTexturePro(bulletTexture, source, dest, origin, 0.0f, WHITE);
     }
 
     if (dynamic_cast<Boss *>(entity.get())) {

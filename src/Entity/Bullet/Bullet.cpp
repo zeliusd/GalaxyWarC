@@ -2,7 +2,7 @@
 #include "../../Player/Player.h"
 
 Bullet::Bullet(float x, float y, std::shared_ptr<Player> shooter)
-    : position(std::make_shared<Position>(x, y)), width(20), height(20),
+    : position(std::make_shared<Position>(x, y)), width(35), height(35),
       alive(true), player(shooter) {}
 
 float Bullet::getX() const { return position->x; }
