@@ -1,14 +1,19 @@
 #include "GameController.h"
-#include "../Entity/Boss/Boss.h"
-#include "../Entity/Bullet/Bullet.h"
-#include "../resources/tracks/Fire1.c"
-#include "../resources/tracks/bosstrack.c"
-#include "../resources/tracks/spaceship.c"
 #include "Blocks/Bloque.h"
+#include "Entity/Boss/Boss.h"
 #include "Entity/Entity.h"
 #include "raylib.h"
 #include <algorithm>
 #include <iostream>
+
+extern unsigned char spaceship_wav[];
+extern unsigned int spaceship_wav_len;
+
+extern unsigned char Fire1_wav[];
+extern unsigned int Fire1_wav_len;
+
+extern unsigned char bosstrack_mp3[];
+extern unsigned int bosstrack_mp3_len;
 
 GameController::GameController() {
   this->actualMusic =
@@ -133,7 +138,6 @@ void GameController::manageColission(
     }
   }
 }
-
 void GameController::spawnBoss(std::vector<std::shared_ptr<Entity>> &entities) {
   if (bossHasSpawned)
     return;

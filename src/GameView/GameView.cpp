@@ -2,12 +2,22 @@
 #include "../Blocks/Bloque.h"
 #include "../Entity/Boss/Boss.h"
 #include "../Entity/Bullet/Bullet.h"
-#include "../resources/asteroid.c"
-#include "../resources/boss.c"
-#include "../resources/bullet.c"
-#include "../resources/nave.c"
-#include "../resources/space1.c"
 #include <string>
+
+extern unsigned char nave_png[];
+extern unsigned int nave_png_len;
+
+extern unsigned char asteroid_png[];
+extern unsigned int asteroid_png_len;
+
+extern unsigned char space1_png[];
+extern unsigned int space1_png_len;
+
+extern unsigned char boss_png[];
+extern unsigned int boss_png_len;
+
+extern unsigned char bullet_png[];
+extern unsigned int bullet_png_len;
 
 GameView::GameView() {
   Image naveImage = LoadImageFromMemory(".png", nave_png, nave_png_len);
