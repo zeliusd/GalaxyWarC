@@ -18,9 +18,10 @@ set(MODEL_SOURCES
   src/GameView/GameView.cpp
   src/Entity/Bullet/Bullet.cpp
   src/Entity/Boss/Boss.cpp
-  resources/tracks/bosstrack.c
+  resources/tracks/bossMain.c
   resources/tracks/Fire1.c
   resources/tracks/spaceship.c
+  resources/tracks/bossIntro.c
   resources/images/asteroid.c
   resources/images/boss.c
   resources/images/bullet.c

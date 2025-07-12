@@ -14,6 +14,8 @@ private:
   const std::shared_ptr<GameView> &view;
   GameState state = GameState::MENU;
   bool bossHasSpawned = false;
+  float bossSpawnTime = 0.0f;
+  bool bossAppearing = false;
   std::vector<std::shared_ptr<Bullet>> bullets;
   std::vector<std::shared_ptr<Bloque>> &asteroids;
   std::shared_ptr<Player> &player;
@@ -26,6 +28,8 @@ private:
   Music spaceMusic;
   Music bossMusic;
   Sound shotSound;
+  Sound bossIntroSound;
+
   void shutdown();
 
   void updateBullets();

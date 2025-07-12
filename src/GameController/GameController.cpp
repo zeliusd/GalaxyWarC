@@ -16,8 +16,11 @@ extern unsigned int spaceship_wav_len;
 extern unsigned char Fire1_wav[];
 extern unsigned int Fire1_wav_len;
 
-extern unsigned char bosstrack_mp3[];
-extern unsigned int bosstrack_mp3_len;
+extern unsigned char bossMain_wav[];
+extern unsigned int bossMain_wav_len;
+
+extern unsigned char bossIntro_wav[];
+extern unsigned int bossIntro_wav_len;
 
 GameController::GameController(const std::shared_ptr<GameView> &view,
                                std::shared_ptr<Player> &player,
@@ -26,8 +29,15 @@ GameController::GameController(const std::shared_ptr<GameView> &view,
   this->spaceMusic =
       LoadMusicStreamFromMemory(".wav", spaceship_wav, spaceship_wav_len);
   this->bossMusic =
-      LoadMusicStreamFromMemory(".mp3", bosstrack_mp3, bosstrack_mp3_len);
+      LoadMusicStreamFromMemory(".wav", bossMain_wav, bossMain_wav_len);
+
   PlayMusicStream(this->spaceMusic);
+
+  Wave bossIntroWave =
+      LoadWaveFromMemory(".wav", bossIntro_wav, bossIntro_wav_len);
+  this->bossIntroSound = LoadSoundFromWave(bossIntroWave);
+  UnloadWave(bossIntroWave);
+
   Wave fireWave = LoadWaveFromMemory(".wav", Fire1_wav, Fire1_wav_len);
   shotSound = LoadSoundFromWave(fireWave);
   UnloadWave(fireWave);
@@ -37,6 +47,7 @@ void GameController::shutdown() {
   StopMusicStream(this->spaceMusic);
   UnloadMusicStream(this->spaceMusic);
   UnloadSound(shotSound);
+  UnloadSound(this->bossIntroSound);
 }
 
 bool GameController::gameExit() const {
@@ -50,13 +61,13 @@ void GameController::update() {
   case GameState::PLAYING:
     updatePlayer();
     if (!this->bossHasSpawned) {
+
       UpdateMusicStream(this->spaceMusic);
 
       spawnBoss();
     } else {
       if (this->boss->isAlive()) {
         updateBoss();
-        UpdateMusicStream(this->bossMusic);
       }
     }
 
@@ -191,19 +202,33 @@ void GameController::spawnBoss() {
 
   float centerX = GetScreenWidth() / 2.0f;
   auto boss = std::make_shared<Boss>(centerX, 140);
+
   this->boss = boss;
   this->view->addView(std::make_shared<BossView>(boss));
+
   this->bossHasSpawned = true;
+  this->bossAppearing = true;
+  this->bossSpawnTime = GetTime();
+
   StopMusicStream(this->spaceMusic);
   UnloadMusicStream(this->spaceMusic);
-
   PlayMusicStream(this->bossMusic);
+  PlaySound(this->bossIntroSound);
 }
 
 void GameController::updateBoss() {
   if (!this->bossHasSpawned || !this->boss)
     return;
 
+  if (bossAppearing) {
+    if (GetTime() - bossSpawnTime < 2.0f) {
+
+      return;
+    } else {
+      bossAppearing = false;
+    }
+  }
+  UpdateMusicStream(this->bossMusic);
   float speed = this->boss->getSpeed();
   float newX = this->boss->getX() + speed * GetFrameTime();
 
