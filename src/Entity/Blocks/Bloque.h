@@ -3,8 +3,8 @@
 #ifndef BLOQUE_H
 #define BLOQUE_H
 
-#include "../Entity/Entity.h"
-#include "../Position/Position.h"
+#include "Entity/Entity.h"
+#include "Position/Position.h"
 #include <memory>
 
 class Bloque : public Entity {

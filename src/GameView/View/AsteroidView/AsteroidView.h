@@ -2,8 +2,8 @@
 #ifndef ASTEROIDVIEW_H
 #define ASTEROIDVIEW_H
 
-#include "../../../Blocks/Bloque.h"
 #include "../View.h"
+#include "Entity/Blocks/Bloque.h"
 #include "raylib.h"
 #include <memory>
 

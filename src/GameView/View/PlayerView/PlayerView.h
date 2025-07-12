@@ -2,7 +2,7 @@
 #ifndef PLAYERVIEW_H
 #define PLAYERVIEW_H
 
-#include "../../../Player/Player.h"
+#include "../../../Entity/Player/Player.h"
 #include "../View.h"
 #include "Entity/Entity.h"
 #include "raylib.h"

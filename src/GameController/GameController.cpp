@@ -1,5 +1,5 @@
 #include "GameController.h"
-#include "Blocks/Bloque.h"
+#include "../Entity/Blocks/Bloque.h"
 #include "Entity/Boss/Boss.h"
 #include "Entity/Entity.h"
 #include "GameView/View/BossView/BossView.h"
@@ -48,6 +48,7 @@ void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
                                   return !e->isAlive();
                                 }),
                  entities.end());
+  view->draw();
 }
 
 void GameController::updatePlayer(

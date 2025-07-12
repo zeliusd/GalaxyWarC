@@ -1,10 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include "../../Inventory/Inventario.h"
+#include "../../Position/Position.h"
 #include "../Blocks/Bloque.h"
-#include "../Entity/Bullet/Bullet.h"
-#include "../Entity/Entity.h"
-#include "../Inventory/Inventario.h"
-#include "../Position/Position.h"
+#include "../Bullet/Bullet.h"
+#include "Entity/Entity.h"
 #include <memory>
 
 class Player : public Entity, public std::enable_shared_from_this<Player> {

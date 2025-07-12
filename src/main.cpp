@@ -1,9 +1,9 @@
-#include "Blocks/Bloque.h"
+#include "Entity/Blocks/Bloque.h"
+#include "Entity/Player/Player.h"
 #include "GameController/GameController.h"
 #include "GameView/GameView.h"
 #include "GameView/View/AsteroidView/AsteroidView.h"
 #include "GameView/View/PlayerView/PlayerView.h"
-#include "Player/Player.h"
 #include "raylib.h"
 
 #include <chrono>
@@ -50,7 +50,6 @@ int main() {
     if (player->isAlive()) {
       BeginDrawing();
       controller.update(entidades, player);
-      vista->draw();
     }
 
     if (!player->isAlive()) {

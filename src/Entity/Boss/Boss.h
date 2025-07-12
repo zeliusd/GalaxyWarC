@@ -1,8 +1,8 @@
 
 #ifndef BOSS_H
 #define BOSS_H
-#include "../../Blocks/Bloque.h"
 #include "../../Position/Position.h"
+#include "../Blocks/Bloque.h"
 #include "../Bullet/Bullet.h"
 #include "../Entity.h"
 #include <memory>

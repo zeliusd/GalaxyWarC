@@ -12,7 +12,12 @@ GameView::GameView(std::vector<std::shared_ptr<View>> &entities)
   UnloadImage(backgroundImage);
 }
 
-GameView::~GameView() { UnloadTexture(backgroundTexture); }
+GameView::~GameView() {
+  for (auto view : this->entities) {
+    view->unloadTexture();
+  }
+  UnloadTexture(backgroundTexture);
+}
 
 void GameView::draw() {
   BeginDrawing();

@@ -1,7 +1,7 @@
 #include <memory>
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "../external/doctest/doctest.h"
-#include "../src/Blocks/Bloque.h"
+#include "../src/Entity/Blocks/Bloque.h"
 #include "../src/Inventory/Inventario.h"
 
 TEST_CASE("Inventario puede añadir un bloque") {

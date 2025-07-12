@@ -1,7 +1,7 @@
 
 #ifndef INVENTARIO_H
 #define INVENTARIO_H
-#include "../Blocks/Bloque.h"
+#include "../Entity/Blocks/Bloque.h"
 #include <memory>
 #include <vector>
 

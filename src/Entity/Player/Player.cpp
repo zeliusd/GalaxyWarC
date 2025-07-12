@@ -45,7 +45,7 @@ void Player::collideWith(Boss &boss) { this->alive = false; }
 
 std::shared_ptr<Bullet> Player::shotBullet() {
   auto bullet = std::make_shared<Bullet>(
-      this->position->x, this->position->y - 2, shared_from_this());
+      this->position->x, this->position->y - 50, shared_from_this());
 
   return bullet;
 }

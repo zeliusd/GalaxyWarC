@@ -1,5 +1,5 @@
 #include "Bullet.h"
-#include "../../Player/Player.h"
+#include "../../Entity/Player/Player.h"
 
 Bullet::Bullet(float x, float y, std::shared_ptr<Player> shooter)
     : position(std::make_shared<Position>(x, y)), width(35), height(35),

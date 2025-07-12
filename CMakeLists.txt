@@ -10,9 +10,9 @@ add_subdirectory(external/raylib)
 
 # === Archivos fuente comunes ===
 set(MODEL_SOURCES
-  src/Blocks/Bloque.cpp
+  src/Entity/Blocks/Bloque.cpp
   src/Inventory/Inventario.cpp
-  src/Player/Player.cpp
+  src/Entity/Player/Player.cpp
   src/Position/Position.cpp
   src/GameController/GameController.cpp
   src/GameView/GameView.cpp

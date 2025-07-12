@@ -1,8 +1,8 @@
 #ifndef BULLET_H
 #define BULLET_H
 
-#include "../../Blocks/Bloque.h"
 #include "../../Position/Position.h"
+#include "../Blocks/Bloque.h"
 #include "../Entity.h"
 #include <memory>
 

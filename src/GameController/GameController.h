@@ -2,8 +2,8 @@
 #define GAMECONTROLLER_H
 
 #include "../Entity/Entity.h"
+#include "../Entity/Player/Player.h"
 #include "../GameView/GameView.h"
-#include "../Player/Player.h"
 #include <memory>
 #include <raylib.h>
 #include <vector>

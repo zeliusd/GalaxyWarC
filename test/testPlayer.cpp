@@ -1,7 +1,7 @@
 
 #include "../external/doctest/doctest.h"
-#include "../src/Blocks/Bloque.h"
-#include "../src/Player/Player.h"
+#include "../src/Entity/Blocks/Bloque.h"
+#include "../src/Entity/Player/Player.h"
 #include <memory>
 
 TEST_CASE("Jugador puede obtener un bloque") {
