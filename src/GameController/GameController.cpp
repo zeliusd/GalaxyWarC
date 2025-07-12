@@ -23,44 +23,67 @@ GameController::GameController(const std::shared_ptr<GameView> &view,
                                std::shared_ptr<Player> &player,
                                std::vector<std::shared_ptr<Bloque>> &asteroids)
     : view(view), player(player), asteroids(asteroids) {
-  this->actualMusic =
+  this->spaceMusic =
       LoadMusicStreamFromMemory(".wav", spaceship_wav, spaceship_wav_len);
-  PlayMusicStream(this->actualMusic);
-
+  this->bossMusic =
+      LoadMusicStreamFromMemory(".mp3", bosstrack_mp3, bosstrack_mp3_len);
+  PlayMusicStream(this->spaceMusic);
   Wave fireWave = LoadWaveFromMemory(".wav", Fire1_wav, Fire1_wav_len);
   shotSound = LoadSoundFromWave(fireWave);
   UnloadWave(fireWave);
 }
 
 void GameController::shutdown() {
-  StopMusicStream(actualMusic);
-  UnloadMusicStream(actualMusic);
+  StopMusicStream(this->spaceMusic);
+  UnloadMusicStream(this->spaceMusic);
   UnloadSound(shotSound);
 }
 
+bool GameController::gameExit() const {
+  return (this->state == GameState::EXIT);
+}
+
 void GameController::update() {
-  UpdateMusicStream(actualMusic);
 
-  updatePlayer();
-  if (!this->bossHasSpawned) {
-    spawnBoss();
-  } else {
-    if (this->boss->isAlive()) {
-      updateBoss();
+  switch (this->state) {
+
+  case GameState::PLAYING:
+    updatePlayer();
+    if (!this->bossHasSpawned) {
+      UpdateMusicStream(this->spaceMusic);
+
+      spawnBoss();
+    } else {
+      if (this->boss->isAlive()) {
+        updateBoss();
+        UpdateMusicStream(this->bossMusic);
+      }
     }
+
+    fallBlocksUpdate();
+    manageColission();
+    updateBullets();
+    entityCleaner(this->bullets);
+    entityCleaner(this->asteroids);
+
+    view->draw();
+    break;
+  case GameState::PAUSED:
+    break;
+  case GameState::GAME_OVER:
+    this->view->drawGameOver();
+    break;
+  case GameState::MENU:
+    this->state = this->view->drawMenu();
+    break;
   }
-
-  fallBlocksUpdate();
-  manageColission();
-  updateBullets();
-  entityCleaner(this->bullets);
-  entityCleaner(this->asteroids);
-
-  view->draw();
 }
 
 void GameController::updatePlayer() {
 
+  if (!this->player->isAlive()) {
+    this->state = GameState::GAME_OVER;
+  }
   const float velocidad = player->getSpeed() * GetFrameTime();
 
   float dx = 0, dy = 0;
@@ -169,12 +192,10 @@ void GameController::spawnBoss() {
   this->boss = boss;
   this->view->addView(std::make_shared<BossView>(boss));
   this->bossHasSpawned = true;
-  StopMusicStream(actualMusic);
-  UnloadMusicStream(actualMusic);
+  StopMusicStream(this->spaceMusic);
+  UnloadMusicStream(this->spaceMusic);
 
-  actualMusic =
-      LoadMusicStreamFromMemory(".mp3", bosstrack_mp3, bosstrack_mp3_len);
-  PlayMusicStream(actualMusic);
+  PlayMusicStream(this->bossMusic);
 }
 
 void GameController::updateBoss() {
@@ -206,3 +227,7 @@ void GameController::updateBoss() {
     lastShot = now;
   }
 }
+
+void GameController::setState(GameState state) { this->state = state; }
+
+GameState GameController::getState() const { return this->state; }

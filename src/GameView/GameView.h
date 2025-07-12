@@ -7,6 +7,13 @@
 #include <memory>
 #include <vector>
 
+enum class GameState { MENU, PLAYING, PAUSED, GAME_OVER, EXIT };
+
+struct Button {
+  Rectangle bounds;
+  const char *text;
+};
+
 class GameView {
 
 private:
@@ -25,6 +32,8 @@ public:
   ~GameView();
   void draw();
   void addView(std::shared_ptr<View> view);
+  void drawGameOver();
+  GameState drawMenu();
 };
 
 #endif

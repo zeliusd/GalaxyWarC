@@ -8,9 +8,11 @@
 #include <memory>
 #include <raylib.h>
 #include <vector>
+
 class GameController {
 private:
   const std::shared_ptr<GameView> &view;
+  GameState state = GameState::MENU;
   bool bossHasSpawned = false;
   std::vector<std::shared_ptr<Bullet>> bullets;
   std::vector<std::shared_ptr<Bloque>> &asteroids;
@@ -21,7 +23,8 @@ private:
   void updatePlayer();
 
   void spawnBoss();
-  Music actualMusic;
+  Music spaceMusic;
+  Music bossMusic;
   Sound shotSound;
   void shutdown();
 
@@ -35,6 +38,9 @@ public:
                  std::vector<std::shared_ptr<Bloque>> &asteroids);
   void update();
   void manageColission();
+  GameState getState() const;
+  void setState(GameState state);
+  bool gameExit() const;
 };
 
 template <typename T>

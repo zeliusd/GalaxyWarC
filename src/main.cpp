@@ -44,23 +44,8 @@ int main() {
   auto vista = std::make_shared<GameView>(vistas);
   GameController controller(vista, player, entidades);
 
-  while (!WindowShouldClose()) {
-
-    if (player->isAlive()) {
-      BeginDrawing();
-      controller.update();
-    }
-
-    if (!player->isAlive()) {
-      DrawRectangle(0, 0, screenWidth, screenHeight, Color{0, 0, 0, 150});
-
-      DrawText("GAME OVER", screenWidth / 2 - MeasureText("GAME OVER", 40) / 2,
-               screenHeight / 2 - 40, 40, RED);
-      DrawText("Presiona ESC para salir",
-               screenWidth / 2 - MeasureText("Presiona ESC para salir", 20) / 2,
-               screenHeight / 2 + 10, 20, WHITE);
-      EndDrawing();
-    }
+  while (!WindowShouldClose() && !controller.gameExit()) {
+    controller.update();
   }
   CloseAudioDevice();
 

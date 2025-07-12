@@ -1,4 +1,5 @@
 #include "GameView.h"
+#include "raylib.h"
 #include <algorithm>
 #include <string>
 extern unsigned char space1_png[];
@@ -72,4 +73,50 @@ void GameView::checkAlive() {
                                   return !e->isAlive();
                                 }),
                  entities.end());
+}
+
+void GameView::drawGameOver() {
+  BeginDrawing();
+  int screenWidth = GetScreenWidth();
+  int screenHeight = GetScreenHeight();
+  DrawRectangle(0, 0, screenWidth, screenHeight, Color{0, 0, 0, 150});
+
+  DrawText("GAME OVER", screenWidth / 2 - MeasureText("GAME OVER", 40) / 2,
+           screenHeight / 2 - 40, 40, RED);
+  DrawText("Presiona ESC para salir",
+           screenWidth / 2 - MeasureText("Presiona ESC para salir", 20) / 2,
+           screenHeight / 2 + 10, 20, WHITE);
+  EndDrawing();
+}
+
+bool DrawButton(Button btn, int fontSize, Color idleColor, Color hoverColor,
+                Color textColor) {
+  Vector2 mouse = GetMousePosition();
+  bool hovered = CheckCollisionPointRec(mouse, btn.bounds);
+
+  DrawRectangleRec(btn.bounds, hovered ? hoverColor : idleColor);
+  DrawText(btn.text, btn.bounds.x + 10,
+           btn.bounds.y + btn.bounds.height / 2 - fontSize / 2, fontSize,
+           textColor);
+
+  return hovered && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+}
+
+GameState GameView::drawMenu() {
+  BeginDrawing();
+  Button playButton = {{300, 200, 200, 50}, "PLAY"};
+  Button exitButton = {{300, 270, 200, 50}, "EXIT"};
+
+  DrawText("Galaxy War C++", 280, 100, 30, WHITE);
+
+  if (DrawButton(playButton, 20, DARKGRAY, GRAY, WHITE)) {
+    return GameState::PLAYING;
+  }
+
+  if (DrawButton(exitButton, 20, DARKGRAY, GRAY, WHITE)) {
+    return GameState::EXIT;
+  }
+  EndDrawing();
+
+  return GameState::MENU;
 }
