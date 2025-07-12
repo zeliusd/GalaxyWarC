@@ -26,6 +26,10 @@ set(MODEL_SOURCES
   src/resources/images/bullet.c
   src/resources/images/nave.c
   src/resources/images/space1.c
+  src/GameView/View/PlayerView/PlayerView.cpp
+  src/GameView/View/AsteroidView/AsteroidView.cpp
+  src/GameView/View/BossView/BossView.cpp
+  src/GameView/View/BulletView/BulletView.cpp
 
 )
 

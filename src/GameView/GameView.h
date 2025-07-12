@@ -2,8 +2,7 @@
 #ifndef GAMEVIEW_H
 #define GAMEVIEW_H
 
-#include "../Entity/Entity.h"
-#include "../Player/Player.h"
+#include "View/View.h"
 #include "raylib.h"
 #include <memory>
 #include <vector>
@@ -11,23 +10,19 @@
 class GameView {
 
 private:
-  Texture2D playerTexture;
-  Texture2D asteroidTexture;
   Texture2D backgroundTexture;
-  Texture2D bossTexture;
-  Texture2D bulletTexture;
+  std::vector<std::shared_ptr<View>> &entities;
 
-  void drawPlayer(const std::shared_ptr<Player> &player);
-  void drawEntities(const std::vector<std::shared_ptr<Entity>> &entities);
-  void drawBossHealthBar(const Boss &boss);
+  void drawEntities();
   bool debug = false;
-  void drawCollider(const std::vector<std::shared_ptr<Entity>> &entities);
+  void drawCollider();
+  void drawBackground();
 
 public:
-  GameView();
+  GameView(std::vector<std::shared_ptr<View>> &entities);
   ~GameView();
-  void draw(const std::vector<std::shared_ptr<Entity>> &entities,
-            const std::shared_ptr<Player> &player);
+  void draw();
+  void addView(std::shared_ptr<View> view);
 };
 
 #endif

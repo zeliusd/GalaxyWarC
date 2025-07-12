@@ -1,6 +1,8 @@
 #include "Blocks/Bloque.h"
 #include "GameController/GameController.h"
 #include "GameView/GameView.h"
+#include "GameView/View/AsteroidView/AsteroidView.h"
+#include "GameView/View/PlayerView/PlayerView.h"
 #include "Player/Player.h"
 #include "raylib.h"
 
@@ -9,10 +11,14 @@
 #include <memory>
 #include <vector>
 
-std::shared_ptr<Bloque> createBlock() {
-  float x = static_cast<float>(rand() % 760 + 20);
-  float y = -static_cast<float>(rand() % 500 + 100);
-  return std::make_shared<Bloque>(x, y);
+void generarBloques(std::vector<std::shared_ptr<Entity>> &entidades,
+                    std::vector<std::shared_ptr<View>> &vistas, int cantidad) {
+  for (int i = 0; i < cantidad; ++i) {
+    auto bloque =
+        std::make_shared<Bloque>(rand() % 760 + 20, -(rand() % 500 + 100));
+    entidades.push_back(bloque);
+    vistas.push_back(std::make_shared<AsteroidView>(bloque));
+  }
 }
 
 int main() {
@@ -26,24 +32,25 @@ int main() {
   srand(seed);
 
   std::vector<std::shared_ptr<Entity>> entidades;
+  std::vector<std::shared_ptr<View>> vistas;
 
   std::shared_ptr<Player> player = std::make_shared<Player>(420, 500);
 
-  for (int i = 0; i < 40; ++i) {
-    entidades.push_back(createBlock());
-  }
+  auto playerview = std::make_shared<PlayerView>(player);
+
+  generarBloques(entidades, vistas, 40);
 
   entidades.push_back(player);
-
-  GameController controller;
-  GameView view;
+  vistas.push_back(std::make_shared<PlayerView>(player));
+  auto vista = std::make_shared<GameView>(vistas);
+  GameController controller(vista);
 
   while (!WindowShouldClose()) {
 
     if (player->isAlive()) {
       BeginDrawing();
       controller.update(entidades, player);
-      view.draw(entidades, player);
+      vista->draw();
     }
 
     if (!player->isAlive()) {

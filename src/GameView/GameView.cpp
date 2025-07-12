@@ -1,155 +1,59 @@
 #include "GameView.h"
-#include "../Blocks/Bloque.h"
-#include "../Entity/Boss/Boss.h"
-#include "../Entity/Bullet/Bullet.h"
 #include <string>
-
-extern unsigned char nave_png[];
-extern unsigned int nave_png_len;
-
-extern unsigned char asteroid_png[];
-extern unsigned int asteroid_png_len;
-
 extern unsigned char space1_png[];
 extern unsigned int space1_png_len;
 
-extern unsigned char boss_png[];
-extern unsigned int boss_png_len;
-
-extern unsigned char bullet_png[];
-extern unsigned int bullet_png_len;
-
-GameView::GameView() {
-  Image naveImage = LoadImageFromMemory(".png", nave_png, nave_png_len);
-  playerTexture = LoadTextureFromImage(naveImage);
-  UnloadImage(naveImage);
-
-  Image asteroidImage =
-      LoadImageFromMemory(".png", asteroid_png, asteroid_png_len);
-
-  asteroidTexture = LoadTextureFromImage(asteroidImage);
-  UnloadImage(asteroidImage);
-
+GameView::GameView(std::vector<std::shared_ptr<View>> &entities)
+    : entities(entities) {
   Image backgroundImage =
       LoadImageFromMemory(".png", space1_png, space1_png_len);
-
   backgroundTexture = LoadTextureFromImage(backgroundImage);
   UnloadImage(backgroundImage);
-
-  Image bossImage = LoadImageFromMemory(".png", boss_png, boss_png_len);
-
-  bossTexture = LoadTextureFromImage(bossImage);
-  UnloadImage(bossImage);
-
-  Image bulletImage = LoadImageFromMemory(".png", bullet_png, bullet_png_len);
-
-  bulletTexture = LoadTextureFromImage(bulletImage);
-  UnloadImage(bulletImage);
 }
 
-GameView::~GameView() {
-  UnloadTexture(playerTexture);
-  UnloadTexture(asteroidTexture);
-  UnloadTexture(backgroundTexture);
-  UnloadTexture(bossTexture);
-  UnloadTexture(bulletTexture);
-}
+GameView::~GameView() { UnloadTexture(backgroundTexture); }
 
-void GameView::draw(const std::vector<std::shared_ptr<Entity>> &entities,
-                    const std::shared_ptr<Player> &player) {
+void GameView::draw() {
   BeginDrawing();
+
+  this->drawBackground();
+  this->drawEntities();
+  if (this->debug) {
+    drawCollider();
+  }
+  EndDrawing();
+}
+void GameView::drawBackground() {
   ClearBackground(BLUE);
   DrawTexturePro(
       backgroundTexture,
       {0, 0, (float)backgroundTexture.width, (float)backgroundTexture.height},
       {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0.0f,
       WHITE);
-  drawPlayer(player);
-  drawEntities(entities);
-
-  for (const auto &entity : entities) {
-    if (auto boss = std::dynamic_pointer_cast<Boss>(entity)) {
-      drawBossHealthBar(*boss);
-    }
-  }
-  std::string puntosTexto = "Puntos: " + std::to_string(player->getPoints()) +
-                            " Entities: " + std::to_string(entities.size());
+  this->drawEntities();
+  std::string puntosTexto = " Entities: " + std::to_string(entities.size());
   DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
-
-  if (this->debug) {
-
-    drawCollider(entities);
-  }
-  EndDrawing();
 }
 
-void GameView::drawPlayer(const std::shared_ptr<Player> &player) {
-  Rectangle source = {0, 0, (float)playerTexture.width,
-                      (float)playerTexture.height};
-  Rectangle dest = {player->getX() - player->getWidth() / 2.0f,
-                    player->getY() - player->getHeight() / 2.0f,
-                    player->getWidth(), player->getHeight()};
-  Vector2 origin = {0, 0};
-  DrawTexturePro(playerTexture, source, dest, origin, 0.0f, WHITE);
-}
+void GameView::drawEntities() {
 
-void GameView::drawEntities(
-    const std::vector<std::shared_ptr<Entity>> &entities) {
-  for (auto &entity : entities) {
-
-    if (dynamic_cast<Bloque *>(entity.get())) {
-      Rectangle source = {0, 0, (float)asteroidTexture.width,
-                          (float)asteroidTexture.height};
-      Rectangle dest = {entity->getX() - entity->getWidth() / 2.0f,
-                        entity->getY() - entity->getHeight() / 2.0f,
-                        entity->getWidth(), entity->getHeight()};
-      Vector2 origin = {0, 0};
-      DrawTexturePro(asteroidTexture, source, dest, origin, 0.0f, WHITE);
-    }
-    if (dynamic_cast<Bullet *>(entity.get())) {
-      Rectangle source = {0, 0, (float)bulletTexture.width,
-                          (float)bulletTexture.height};
-      Rectangle dest = {entity->getX() - entity->getWidth() / 2.0f,
-                        entity->getY() - entity->getHeight() / 2.0f,
-                        entity->getWidth(), entity->getHeight()};
-      Vector2 origin = {0, 0};
-      DrawTexturePro(bulletTexture, source, dest, origin, 0.0f, WHITE);
-    }
-
-    if (dynamic_cast<Boss *>(entity.get())) {
-      Rectangle source = {0, 0, (float)bossTexture.width,
-                          (float)bossTexture.height};
-      Rectangle dest = {entity->getX() - entity->getWidth() / 2.0f,
-                        entity->getY() - entity->getHeight() / 2.0f,
-                        entity->getWidth(), entity->getHeight()};
-      Vector2 origin = {0, 0};
-      DrawTexturePro(bossTexture, source, dest, origin, 0.0f, WHITE);
-    }
+  for (auto &view : this->entities) {
+    view->draw();
   }
 }
 
-void GameView::drawBossHealthBar(const Boss &boss) {
-  float barWidth = 300;
-  float barHeight = 20;
-  float x = (GetScreenWidth() - barWidth) / 2;
-  float y = 20;
-
-  float healthRatio = (float)boss.getHealth() / boss.getMaxHealth();
-  float healthWidth = barWidth * healthRatio;
-
-  DrawRectangle(x, y, barWidth, barHeight, DARKGRAY);
-
-  DrawRectangle(x, y, healthWidth, barHeight, RED);
-
-  DrawRectangleLines(x, y, barWidth, barHeight, WHITE);
+void GameView::addView(std::shared_ptr<View> view) {
+  this->entities.push_back(view);
 }
 
-void GameView::drawCollider(
-    const std::vector<std::shared_ptr<Entity>> &entities) {
+void GameView::drawCollider() {
 
-  for (auto &entity : entities) {
-    DrawRectangleLines(entity->getX() - entity->getWidth() / 2.0f,
-                       entity->getY() - entity->getHeight() / 2.0f,
-                       entity->getWidth(), entity->getHeight(), RED);
+  for (auto &entity : this->entities) {
+    DrawRectangleLines(entity->getReference()->getX() -
+                           entity->getReference()->getWidth() / 2.0f,
+                       entity->getReference()->getY() -
+                           entity->getReference()->getHeight() / 2.0f,
+                       entity->getReference()->getWidth(),
+                       entity->getReference()->getHeight(), RED);
   }
 }

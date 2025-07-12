@@ -2,12 +2,14 @@
 #define GAMECONTROLLER_H
 
 #include "../Entity/Entity.h"
+#include "../GameView/GameView.h"
 #include "../Player/Player.h"
 #include <memory>
 #include <raylib.h>
 #include <vector>
 class GameController {
 private:
+  const std::shared_ptr<GameView> &view;
   bool bossHasSpawned = false;
   void fallBlocksUpdate(std::vector<std::shared_ptr<Entity>> &entities);
   void updatePlayer(std::vector<std::shared_ptr<Entity>> &entities,
@@ -18,7 +20,7 @@ private:
   void shutdown();
 
 public:
-  GameController();
+  GameController(const std::shared_ptr<GameView> &view);
   void update(std::vector<std::shared_ptr<Entity>> &entities,
               std::shared_ptr<Player> &player);
   void manageColission(std::vector<std::shared_ptr<Entity>> &entities);

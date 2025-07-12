@@ -2,9 +2,12 @@
 #include "Blocks/Bloque.h"
 #include "Entity/Boss/Boss.h"
 #include "Entity/Entity.h"
+#include "GameView/View/BossView/BossView.h"
+#include "GameView/View/BulletView/BulletView.h"
 #include "raylib.h"
 #include <algorithm>
 #include <iostream>
+#include <memory>
 
 extern unsigned char spaceship_wav[];
 extern unsigned int spaceship_wav_len;
@@ -15,7 +18,8 @@ extern unsigned int Fire1_wav_len;
 extern unsigned char bosstrack_mp3[];
 extern unsigned int bosstrack_mp3_len;
 
-GameController::GameController() {
+GameController::GameController(const std::shared_ptr<GameView> &view)
+    : view(view) {
   this->actualMusic =
       LoadMusicStreamFromMemory(".wav", spaceship_wav, spaceship_wav_len);
   PlayMusicStream(this->actualMusic);
@@ -68,7 +72,9 @@ void GameController::updatePlayer(
 
   if (IsKeyDown(KEY_SPACE) &&
       (tiempoActual - tiempoUltimoDisparo) > tiempoEntreDisparos) {
-    entities.push_back(player->shotBullet());
+    auto bullet = player->shotBullet();
+    entities.push_back(bullet);
+    this->view->addView(std::make_shared<BulletView>(bullet));
     PlaySound(shotSound);
     tiempoUltimoDisparo = tiempoActual;
   }
@@ -148,7 +154,9 @@ void GameController::spawnBoss(std::vector<std::shared_ptr<Entity>> &entities) {
     }
   }
   float centerX = GetScreenWidth() / 2.0f;
-  entities.push_back(std::make_shared<Boss>(centerX, 140));
+  auto boss = std::make_shared<Boss>(centerX, 140);
+  entities.push_back(boss);
+  this->view->addView(std::make_shared<BossView>(boss));
   this->bossHasSpawned = true;
   StopMusicStream(actualMusic);
   UnloadMusicStream(actualMusic);
