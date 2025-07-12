@@ -11,7 +11,7 @@
 #include <memory>
 #include <vector>
 
-void generarBloques(std::vector<std::shared_ptr<Entity>> &entidades,
+void generarBloques(std::vector<std::shared_ptr<Bloque>> &entidades,
                     std::vector<std::shared_ptr<View>> &vistas, int cantidad) {
   for (int i = 0; i < cantidad; ++i) {
     auto bloque =
@@ -31,7 +31,7 @@ int main() {
   unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
   srand(seed);
 
-  std::vector<std::shared_ptr<Entity>> entidades;
+  std::vector<std::shared_ptr<Bloque>> entidades;
   std::vector<std::shared_ptr<View>> vistas;
 
   std::shared_ptr<Player> player = std::make_shared<Player>(420, 500);
@@ -40,16 +40,15 @@ int main() {
 
   generarBloques(entidades, vistas, 40);
 
-  entidades.push_back(player);
   vistas.push_back(std::make_shared<PlayerView>(player));
   auto vista = std::make_shared<GameView>(vistas);
-  GameController controller(vista);
+  GameController controller(vista, player, entidades);
 
   while (!WindowShouldClose()) {
 
     if (player->isAlive()) {
       BeginDrawing();
-      controller.update(entidades, player);
+      controller.update();
     }
 
     if (!player->isAlive()) {

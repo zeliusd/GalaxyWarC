@@ -5,9 +5,10 @@
 #include "GameView/View/BossView/BossView.h"
 #include "GameView/View/BulletView/BulletView.h"
 #include "raylib.h"
-#include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <memory>
+#include <vector>
 
 extern unsigned char spaceship_wav[];
 extern unsigned int spaceship_wav_len;
@@ -18,8 +19,10 @@ extern unsigned int Fire1_wav_len;
 extern unsigned char bosstrack_mp3[];
 extern unsigned int bosstrack_mp3_len;
 
-GameController::GameController(const std::shared_ptr<GameView> &view)
-    : view(view) {
+GameController::GameController(const std::shared_ptr<GameView> &view,
+                               std::shared_ptr<Player> &player,
+                               std::vector<std::shared_ptr<Bloque>> &asteroids)
+    : view(view), player(player), asteroids(asteroids) {
   this->actualMusic =
       LoadMusicStreamFromMemory(".wav", spaceship_wav, spaceship_wav_len);
   PlayMusicStream(this->actualMusic);
@@ -34,26 +37,22 @@ void GameController::shutdown() {
   UnloadMusicStream(actualMusic);
   UnloadSound(shotSound);
 }
-void GameController::update(std::vector<std::shared_ptr<Entity>> &entities,
-                            std::shared_ptr<Player> &player) {
+
+void GameController::update() {
   UpdateMusicStream(actualMusic);
 
-  updatePlayer(entities, player);
-  spawnBoss(entities);
-  fallBlocksUpdate(entities);
-  manageColission(entities);
+  updatePlayer();
+  spawnBoss();
+  fallBlocksUpdate();
+  manageColission();
+  updateBullets();
+  entityCleaner(this->bullets);
+  entityCleaner(this->asteroids);
 
-  entities.erase(std::remove_if(entities.begin(), entities.end(),
-                                [](const std::shared_ptr<Entity> &e) {
-                                  return !e->isAlive();
-                                }),
-                 entities.end());
   view->draw();
 }
 
-void GameController::updatePlayer(
-    std::vector<std::shared_ptr<Entity>> &entities,
-    std::shared_ptr<Player> &player) {
+void GameController::updatePlayer() {
 
   const float velocidad = player->getSpeed() * GetFrameTime();
 
@@ -74,7 +73,7 @@ void GameController::updatePlayer(
   if (IsKeyDown(KEY_SPACE) &&
       (tiempoActual - tiempoUltimoDisparo) > tiempoEntreDisparos) {
     auto bullet = player->shotBullet();
-    entities.push_back(bullet);
+    this->bullets.push_back(bullet);
     this->view->addView(std::make_shared<BulletView>(bullet));
     PlaySound(shotSound);
     tiempoUltimoDisparo = tiempoActual;
@@ -98,20 +97,20 @@ void GameController::updatePlayer(
   player->move(x - player->getX(), y - player->getY());
 }
 
-void GameController::fallBlocksUpdate(
-    std::vector<std::shared_ptr<Entity>> &entities) {
-  for (auto &entity : entities) {
-    if (dynamic_cast<Bloque *>(entity.get()) != nullptr) {
-      entity->move(entity->getX(), 100 * GetFrameTime());
-      if (entity->getY() - entity->getHeight() / 2 > GetScreenHeight()) {
-        entity->onCollision(*entity);
-      }
+void GameController::fallBlocksUpdate() {
+  for (auto &entity : this->asteroids) {
+    entity->move(entity->getX(), 100 * GetFrameTime());
+    if (entity->getY() - entity->getHeight() / 2 > GetScreenHeight()) {
+      entity->onCollision(*entity);
     }
-    if (dynamic_cast<Bullet *>(entity.get()) != nullptr) {
-      entity->move(entity->getX(), -450 * GetFrameTime());
-      if (entity->getY() + entity->getHeight() / 2 < 0) {
-        entity->onCollision(*entity);
-      }
+  }
+}
+
+void GameController::updateBullets() {
+  for (auto &bullet : this->bullets) {
+    bullet->move(bullet->getX(), -450 * GetFrameTime());
+    if (bullet->getY() + bullet->getHeight() / 2 < 0) {
+      bullet->onCollision(*bullet);
     }
   }
 }
@@ -128,8 +127,14 @@ bool checkCollisionEntidad(const Entity &a, const Entity &b) {
   return CheckCollisionRecs(r1, r2);
 }
 
-void GameController::manageColission(
-    std::vector<std::shared_ptr<Entity>> &entities) {
+void GameController::manageColission() {
+  std::vector<std::shared_ptr<Entity>> entities;
+  pushEntities(this->bullets, entities);
+  pushEntities(this->asteroids, entities);
+  entities.push_back(this->player);
+  if (this->boss != nullptr && this->boss->isAlive()) {
+    entities.push_back(this->boss);
+  }
   for (size_t i = 0; i < entities.size(); ++i) {
     for (size_t j = i + 1; j < entities.size(); ++j) {
       auto &a = entities[i];
@@ -145,18 +150,13 @@ void GameController::manageColission(
     }
   }
 }
-void GameController::spawnBoss(std::vector<std::shared_ptr<Entity>> &entities) {
-  if (bossHasSpawned)
+void GameController::spawnBoss() {
+  if (bossHasSpawned || !this->asteroids.empty())
     return;
-  for (auto &entity : entities) {
-    if (dynamic_cast<Bloque *>(entity.get()) != nullptr ||
-        dynamic_cast<Boss *>(entity.get())) {
-      return;
-    }
-  }
+
   float centerX = GetScreenWidth() / 2.0f;
   auto boss = std::make_shared<Boss>(centerX, 140);
-  entities.push_back(boss);
+  this->boss = boss;
   this->view->addView(std::make_shared<BossView>(boss));
   this->bossHasSpawned = true;
   StopMusicStream(actualMusic);
