@@ -96,8 +96,8 @@ bool DrawButton(Button btn, int fontSize, Color idleColor, Color hoverColor,
 
   DrawRectangleRec(btn.bounds, hovered ? hoverColor : idleColor);
   DrawText(btn.text, btn.bounds.x + 10,
-           btn.bounds.y + btn.bounds.height / 2 - fontSize / 2, fontSize,
-           textColor);
+           btn.bounds.y + btn.bounds.height / 2 - (float)fontSize / 2,
+           (float)fontSize, textColor);
 
   return hovered && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
 }

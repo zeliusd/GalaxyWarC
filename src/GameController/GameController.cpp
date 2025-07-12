@@ -76,6 +76,8 @@ void GameController::update() {
   case GameState::MENU:
     this->state = this->view->drawMenu();
     break;
+  case GameState::EXIT:
+    break;
   }
 }
 
