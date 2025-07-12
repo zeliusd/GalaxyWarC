@@ -1,9 +1,9 @@
 #include "Bullet.h"
 #include "../../Entity/Player/Player.h"
-
-Bullet::Bullet(float x, float y, std::shared_ptr<Player> shooter)
+Bullet::Bullet(float x, float y, float vx, float vy,
+               std::shared_ptr<Player> shoter)
     : position(std::make_shared<Position>(x, y)), width(35), height(35),
-      alive(true), player(shooter) {}
+      alive(true), vx(vx), vy(vy), player(shoter) {}
 
 float Bullet::getX() const { return position->x; }
 float Bullet::getY() const { return position->y; }
@@ -25,8 +25,9 @@ void Bullet::collideWith(Bloque &bloque) {
 }
 
 void Bullet::move(float x, float y) {
-  position->x = x;
-  position->y += y;
+  position->x += vx * x;
+  position->y += vy * x;
 }
 
+bool Bullet::isPlayerBullet() const { return !this->player.expired(); }
 bool Bullet::isAlive() const { return alive; }

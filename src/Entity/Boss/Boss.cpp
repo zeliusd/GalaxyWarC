@@ -36,3 +36,23 @@ void Boss::collideWith(Bullet &bullet) {
 void Boss::collideWith(Boss &boss) { return; }
 
 bool Boss::isAlive() const { return alive; }
+
+void Boss::setSpeed(float speed) { this->speed = speed; }
+
+std::vector<std::shared_ptr<Bullet>> Boss::shotBullets() {
+  std::vector<std::shared_ptr<Bullet>> bullets;
+
+  float x = this->getX();
+  float y = this->getY();
+
+  bullets.push_back(
+      std::make_shared<Bullet>(x, y + 200, 0.0f, 300.0f, nullptr));
+
+  bullets.push_back(
+      std::make_shared<Bullet>(x - 100, y + 200, -150.0f, 300.0f, nullptr));
+
+  bullets.push_back(
+      std::make_shared<Bullet>(x + 100, y + 200, 150.0f, 300.0f, nullptr));
+
+  return bullets;
+}

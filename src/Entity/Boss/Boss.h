@@ -6,6 +6,7 @@
 #include "../Bullet/Bullet.h"
 #include "../Entity.h"
 #include <memory>
+#include <vector>
 
 class Boss : public Entity {
 private:
@@ -33,10 +34,10 @@ public:
   void collideWith(Bloque &bloque) override;
   void collideWith(Player &player) override;
   void collideWith(Bullet &bullet) override;
-  void incrementScore(int points);
-  std::shared_ptr<Bullet> shotBullet();
-  bool isAlive() const override;
 
+  std::vector<std::shared_ptr<Bullet>> shotBullets();
+  bool isAlive() const override;
+  void setSpeed(float speed);
   int getHealth() const;
   int getMaxHealth() const;
 };

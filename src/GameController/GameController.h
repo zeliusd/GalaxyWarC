@@ -27,6 +27,8 @@ private:
 
   void updateBullets();
 
+  void updateBoss();
+
 public:
   GameController(const std::shared_ptr<GameView> &view,
                  std::shared_ptr<Player> &player,

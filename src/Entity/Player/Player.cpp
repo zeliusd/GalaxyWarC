@@ -40,14 +40,16 @@ void Player::onCollision(Entity &another) { another.collideWith(*this); }
 
 void Player::collideWith(Bloque &bloque) { this->alive = false; }
 void Player::collideWith(Player &player) { return; }
-void Player::collideWith(Bullet &bullet) { return; }
+void Player::collideWith(Bullet &bullet) {
+  if (bullet.isPlayerBullet())
+    return;
+  this->alive = false;
+}
 void Player::collideWith(Boss &boss) { this->alive = false; }
 
 std::shared_ptr<Bullet> Player::shotBullet() {
-  auto bullet = std::make_shared<Bullet>(
-      this->position->x, this->position->y - 50, shared_from_this());
-
-  return bullet;
+  return std::make_shared<Bullet>(this->position->x, this->position->y - 50,
+                                  0.0f, -450.0f, shared_from_this());
 }
 
 void Player::incrementScore(int points) { this->points += points; }

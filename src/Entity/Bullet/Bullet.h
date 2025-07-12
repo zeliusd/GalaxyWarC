@@ -12,9 +12,11 @@ private:
   float width, height;
   bool alive;
   std::weak_ptr<Player> player;
+  float vx = 0.0f;
+  float vy = 0.0f;
 
 public:
-  Bullet(float x, float y, std::shared_ptr<Player> shooter);
+  Bullet(float x, float y, float vx, float vy, std::shared_ptr<Player> shoter);
 
   float getX() const override;
   float getY() const override;
@@ -29,6 +31,8 @@ public:
 
   void move(float x, float y) override;
   bool isAlive() const override;
+
+  bool isPlayerBullet() const;
 };
 
 #endif

@@ -45,6 +45,9 @@ void GameController::update() {
   if (!this->bossHasSpawned) {
     spawnBoss();
   } else {
+    if (this->boss->isAlive()) {
+      updateBoss();
+    }
   }
 
   fallBlocksUpdate();
@@ -112,10 +115,13 @@ void GameController::fallBlocksUpdate() {
 
 void GameController::updateBullets() {
   for (auto &bullet : this->bullets) {
-    bullet->move(bullet->getX(), -450 * GetFrameTime());
-    if (bullet->getY() + bullet->getHeight() / 2 < 0) {
+    float y = bullet->getY();
+    float halfH = bullet->getHeight() / 2.0f;
+
+    if (y + halfH < 0 || y - halfH > GetScreenHeight()) {
       bullet->onCollision(*bullet);
     }
+    bullet->move(GetFrameTime(), 0);
   }
 }
 
@@ -169,4 +175,34 @@ void GameController::spawnBoss() {
   actualMusic =
       LoadMusicStreamFromMemory(".mp3", bosstrack_mp3, bosstrack_mp3_len);
   PlayMusicStream(actualMusic);
+}
+
+void GameController::updateBoss() {
+  if (!this->bossHasSpawned || !this->boss)
+    return;
+
+  float speed = this->boss->getSpeed();
+  float newX = this->boss->getX() + speed * GetFrameTime();
+
+  if (newX - this->boss->getWidth() / 2 < 0 ||
+      newX + this->boss->getWidth() / 2 > GetScreenWidth()) {
+    speed *= -1;
+    this->boss->setSpeed(speed);
+
+    newX = this->boss->getX() + speed * GetFrameTime();
+  }
+
+  this->boss->move(newX - this->boss->getX(), 0);
+
+  static float lastShot = 0.0f;
+  float now = GetTime();
+
+  if (now - lastShot > 1.5f) { // Dispara cada 1.5 segundos
+    auto bossBullets = boss->shotBullets();
+    for (auto &bullet : bossBullets) {
+      bullets.push_back(bullet);
+      view->addView(std::make_shared<BulletView>(bullet));
+    }
+    lastShot = now;
+  }
 }
