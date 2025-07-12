@@ -25,4 +25,6 @@ void AsteroidView::draw() {
 
 std::shared_ptr<Entity> AsteroidView::getReference() { return this->asteroid; }
 
+bool AsteroidView::isAlive() { return this->asteroid->isAlive(); }
+
 void AsteroidView::unloadTexture() { UnloadTexture(this->asteroidTexture); }

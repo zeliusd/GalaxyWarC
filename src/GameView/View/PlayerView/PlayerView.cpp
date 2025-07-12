@@ -22,4 +22,6 @@ void PlayerView::draw() {
 
 std::shared_ptr<Entity> PlayerView::getReference() { return this->player; }
 
+bool PlayerView::isAlive() { return this->player->isAlive(); }
+
 void PlayerView::unloadTexture() { UnloadTexture(this->playerTexture); }

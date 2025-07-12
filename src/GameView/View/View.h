@@ -9,6 +9,7 @@ public:
   virtual ~View() = default;
   virtual void unloadTexture() = 0;
   virtual std::shared_ptr<Entity> getReference() = 0;
+  virtual bool isAlive() = 0;
 };
 
 #endif

@@ -18,6 +18,8 @@ private:
   void drawCollider();
   void drawBackground();
 
+  void checkAlive();
+
 public:
   GameView(std::vector<std::shared_ptr<View>> &entities);
   ~GameView();

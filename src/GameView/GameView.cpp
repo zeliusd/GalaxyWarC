@@ -1,4 +1,5 @@
 #include "GameView.h"
+#include <algorithm>
 #include <string>
 extern unsigned char space1_png[];
 extern unsigned int space1_png_len;
@@ -16,6 +17,7 @@ GameView::~GameView() { UnloadTexture(backgroundTexture); }
 void GameView::draw() {
   BeginDrawing();
 
+  this->checkAlive();
   this->drawBackground();
   this->drawEntities();
   if (this->debug) {
@@ -57,4 +59,12 @@ void GameView::drawCollider() {
                        entity->getReference()->getWidth(),
                        entity->getReference()->getHeight(), RED);
   }
+}
+
+void GameView::checkAlive() {
+  entities.erase(std::remove_if(entities.begin(), entities.end(),
+                                [](const std::shared_ptr<View> &e) {
+                                  return !e->isAlive();
+                                }),
+                 entities.end());
 }

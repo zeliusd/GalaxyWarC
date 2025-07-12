@@ -1,5 +1,6 @@
 
 #include "BossView.h"
+#include "Entity/Boss/Boss.h"
 
 BossView::BossView(std::shared_ptr<Boss> boss) {
 
@@ -43,5 +44,7 @@ void BossView::drawBossBar() {
 }
 
 std::shared_ptr<Entity> BossView::getReference() { return this->boss; }
+
+bool BossView::isAlive() { return this->boss->isAlive(); }
 
 void BossView::unloadTexture() { UnloadTexture(this->bossTexture); }

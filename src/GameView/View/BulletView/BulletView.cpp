@@ -25,4 +25,6 @@ void BulletView::draw() {
 
 std::shared_ptr<Entity> BulletView::getReference() { return this->bullet; }
 
+bool BulletView::isAlive() { return this->bullet->isAlive(); }
+
 void BulletView::unloadTexture() { UnloadTexture(this->bulletTexture); }

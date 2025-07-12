@@ -21,6 +21,7 @@ public:
   void draw() override;
   void unloadTexture() override;
   std::shared_ptr<Entity> getReference() override;
+  bool isAlive() override;
 };
 
 #endif
