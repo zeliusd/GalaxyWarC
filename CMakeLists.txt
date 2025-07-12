@@ -18,14 +18,14 @@ set(MODEL_SOURCES
   src/GameView/GameView.cpp
   src/Entity/Bullet/Bullet.cpp
   src/Entity/Boss/Boss.cpp
-  src/resources/tracks/bosstrack.c
-  src/resources/tracks/Fire1.c
-  src/resources/tracks/spaceship.c
-  src/resources/images/asteroid.c
-  src/resources/images/boss.c
-  src/resources/images/bullet.c
-  src/resources/images/nave.c
-  src/resources/images/space1.c
+  resources/tracks/bosstrack.c
+  resources/tracks/Fire1.c
+  resources/tracks/spaceship.c
+  resources/images/asteroid.c
+  resources/images/boss.c
+  resources/images/bullet.c
+  resources/images/nave.c
+  resources/images/space1.c
   src/GameView/View/PlayerView/PlayerView.cpp
   src/GameView/View/AsteroidView/AsteroidView.cpp
   src/GameView/View/BossView/BossView.cpp

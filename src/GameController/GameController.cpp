@@ -42,7 +42,11 @@ void GameController::update() {
   UpdateMusicStream(actualMusic);
 
   updatePlayer();
-  spawnBoss();
+  if (!this->bossHasSpawned) {
+    spawnBoss();
+  } else {
+  }
+
   fallBlocksUpdate();
   manageColission();
   updateBullets();
@@ -151,7 +155,7 @@ void GameController::manageColission() {
   }
 }
 void GameController::spawnBoss() {
-  if (bossHasSpawned || !this->asteroids.empty())
+  if (!this->asteroids.empty())
     return;
 
   float centerX = GetScreenWidth() / 2.0f;
