@@ -21,18 +21,19 @@ void GameView::draw() {
   if (this->debug) {
     drawCollider();
   }
+
+  std::string puntosTexto = " Entities: " + std::to_string(entities.size());
+  DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
   EndDrawing();
 }
 void GameView::drawBackground() {
   ClearBackground(BLUE);
+
   DrawTexturePro(
       backgroundTexture,
       {0, 0, (float)backgroundTexture.width, (float)backgroundTexture.height},
       {0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, {0, 0}, 0.0f,
       WHITE);
-  this->drawEntities();
-  std::string puntosTexto = " Entities: " + std::to_string(entities.size());
-  DrawText(puntosTexto.c_str(), 10, 10, 20, WHITE);
 }
 
 void GameView::drawEntities() {
