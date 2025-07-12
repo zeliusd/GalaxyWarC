@@ -1,2 +1,2 @@
-# CMT
-git clone --recurse-submodules git@github.com:zeliusd/CMT.git
+# GalaxyWarC
+git clone --recurse-submodules https://github.com/zeliusd/GalaxyWarC
