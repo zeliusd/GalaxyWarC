@@ -93,9 +93,6 @@ void GameController::update() {
 
 void GameController::updatePlayer() {
 
-  if (this->bossAppearing) {
-    return;
-  }
   if (!this->player->isAlive()) {
     this->state = GameState::GAME_OVER;
   }
@@ -115,7 +112,7 @@ void GameController::updatePlayer() {
   double tiempoActual = GetTime();  // en segundos
   double tiempoEntreDisparos = 0.3; // medio segundo entre disparos
 
-  if (IsKeyDown(KEY_SPACE) &&
+  if (!this->bossAppearing && IsKeyDown(KEY_SPACE) &&
       (tiempoActual - tiempoUltimoDisparo) > tiempoEntreDisparos) {
     auto bullet = player->shotBullet();
     this->bullets.push_back(bullet);

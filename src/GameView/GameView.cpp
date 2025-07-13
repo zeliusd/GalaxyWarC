@@ -89,34 +89,45 @@ void GameView::drawGameOver() {
   EndDrawing();
 }
 
-bool DrawButton(Button btn, int fontSize, Color idleColor, Color hoverColor,
+bool DrawButton(Button button, int fontSize, Color bgColor, Color hoverColor,
                 Color textColor) {
   Vector2 mouse = GetMousePosition();
-  bool hovered = CheckCollisionPointRec(mouse, btn.bounds);
+  bool hovered = CheckCollisionPointRec(mouse, button.bounds);
+  bool clicked = hovered && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
 
-  DrawRectangleRec(btn.bounds, hovered ? hoverColor : idleColor);
-  DrawText(btn.text, btn.bounds.x + 10,
-           btn.bounds.y + btn.bounds.height / 2 - (float)fontSize / 2,
-           (float)fontSize, textColor);
+  Color fill = hovered ? hoverColor : bgColor;
 
-  return hovered && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+  DrawRectangleRounded(button.bounds, 0.3f, 10, fill);
+
+  Vector2 textSize = MeasureTextEx(GetFontDefault(), button.text, fontSize, 1);
+  Vector2 textPos = {button.bounds.x + (button.bounds.width - textSize.x) / 2,
+                     button.bounds.y + (button.bounds.height - textSize.y) / 2};
+
+  DrawTextEx(GetFontDefault(), button.text, {textPos.x + 1, textPos.y + 1},
+             fontSize, 1, BLACK);
+  DrawTextEx(GetFontDefault(), button.text, textPos, fontSize, 1, textColor);
+
+  return clicked;
 }
 
 GameState GameView::drawMenu() {
   BeginDrawing();
-  Button playButton = {{300, 200, 200, 50}, "PLAY"};
-  Button exitButton = {{300, 270, 200, 50}, "EXIT"};
+  ClearBackground(DARKGRAY);
 
-  DrawText("Galaxy War C++", 280, 100, 30, WHITE);
+  DrawText("Galaxy War C++", 250, 101, 40, DARKGRAY);
+  DrawText("Galaxy War C++", 250, 100, 40, WHITE);
 
-  if (DrawButton(playButton, 20, DARKGRAY, GRAY, WHITE)) {
+  Button playButton = {{300, 300, 200, 50}, "PLAY"};
+  Button exitButton = {{300, 370, 200, 50}, "EXIT"};
+
+  if (DrawButton(playButton, 25, BLACK, LIGHTGRAY, RAYWHITE)) {
     return GameState::PLAYING;
   }
 
-  if (DrawButton(exitButton, 20, DARKGRAY, GRAY, WHITE)) {
+  if (DrawButton(exitButton, 25, BLACK, LIGHTGRAY, RAYWHITE)) {
     return GameState::EXIT;
   }
-  EndDrawing();
 
+  EndDrawing();
   return GameState::MENU;
 }
