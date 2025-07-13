@@ -6,12 +6,11 @@
 #include "GameView/View/BulletView/BulletView.h"
 #include "raylib.h"
 #include <cstddef>
-#include <iostream>
 #include <memory>
 #include <vector>
 
-extern unsigned char spaceship_wav[];
-extern unsigned int spaceship_wav_len;
+extern unsigned char level_wav[];
+extern unsigned int level_wav_len;
 
 extern unsigned char Fire1_wav[];
 extern unsigned int Fire1_wav_len;
@@ -27,7 +26,7 @@ GameController::GameController(const std::shared_ptr<GameView> &view,
                                std::vector<std::shared_ptr<Bloque>> &asteroids)
     : view(view), player(player), asteroids(asteroids) {
   this->spaceMusic =
-      LoadMusicStreamFromMemory(".wav", spaceship_wav, spaceship_wav_len);
+      LoadMusicStreamFromMemory(".wav", level_wav, level_wav_len);
   this->bossMusic =
       LoadMusicStreamFromMemory(".wav", bossMain_wav, bossMain_wav_len);
 
@@ -187,8 +186,6 @@ void GameController::manageColission() {
       auto &b = entities[j];
 
       if (checkCollisionEntidad(*a, *b)) {
-        std::cout << "Colisión entre: " << a->getX() << "," << a->getY()
-                  << " y " << b->getX() << "," << b->getY() << std::endl;
 
         a->onCollision(*b);
         b->onCollision(*a);

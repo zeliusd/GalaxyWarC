@@ -20,7 +20,7 @@ set(MODEL_SOURCES
   src/Entity/Boss/Boss.cpp
   resources/tracks/bossMain.c
   resources/tracks/Fire1.c
-  resources/tracks/spaceship.c
+  resources/tracks/level.c
   resources/tracks/bossIntro.c
   resources/images/asteroid.c
   resources/images/boss.c
