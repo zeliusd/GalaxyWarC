@@ -176,6 +176,9 @@ bool checkCollisionEntidad(const Entity &a, const Entity &b) {
 }
 
 void GameController::manageColission() {
+  if (this->bossAppearing) {
+    return;
+  }
   std::vector<std::shared_ptr<Entity>> entities;
   pushEntities(this->bullets, entities);
   pushEntities(this->asteroids, entities);
@@ -245,7 +248,7 @@ void GameController::updateBoss() {
   static float lastShot = 0.0f;
   float now = GetTime();
 
-  if (now - lastShot > 1.5f) { // Dispara cada 1.5 segundos
+  if (now - lastShot > 0.5f) { // Dispara cada 1.5 segundos
     auto bossBullets = boss->shotBullets();
     for (auto &bullet : bossBullets) {
       bullets.push_back(bullet);
