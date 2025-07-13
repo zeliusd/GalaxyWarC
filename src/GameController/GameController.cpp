@@ -93,6 +93,9 @@ void GameController::update() {
 
 void GameController::updatePlayer() {
 
+  if (this->bossAppearing) {
+    return;
+  }
   if (!this->player->isAlive()) {
     this->state = GameState::GAME_OVER;
   }
@@ -198,7 +201,7 @@ void GameController::spawnBoss() {
     return;
 
   float centerX = GetScreenWidth() / 2.0f;
-  auto boss = std::make_shared<Boss>(centerX, 140);
+  auto boss = std::make_shared<Boss>(centerX, 0);
 
   this->boss = boss;
   this->view->addView(std::make_shared<BossView>(boss));
@@ -219,7 +222,7 @@ void GameController::updateBoss() {
 
   if (bossAppearing) {
     if (GetTime() - bossSpawnTime < 2.0f) {
-
+      this->boss->move(0, 75.0f * GetFrameTime());
       return;
     } else {
       bossAppearing = false;
