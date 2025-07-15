@@ -53,6 +53,7 @@ endif()
 # === Ejecutable de tests ===
 set(TEST_SOURCES
   test/testPlayer.cpp
+  test/testCollision.cpp
 )
 
 add_executable(tests
