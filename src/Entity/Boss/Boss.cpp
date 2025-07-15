@@ -27,6 +27,9 @@ void Boss::onCollision(Entity &another) { another.collideWith(*this); }
 void Boss::collideWith(Asteroid &asteroid) { this->alive = false; }
 void Boss::collideWith(Player &player) { return; }
 void Boss::collideWith(Bullet &bullet) {
+  if (!bullet.isPlayerBullet()) {
+    return;
+  }
   if (this->health == 0) {
     this->alive = false;
     return;
