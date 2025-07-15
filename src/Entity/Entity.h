@@ -11,7 +11,7 @@ public:
 
   virtual void onCollision(Entity &otra) = 0;
   virtual void collideWith(class Player &player) = 0;
-  virtual void collideWith(class Bloque &block) = 0;
+  virtual void collideWith(class Asteroid &block) = 0;
   virtual void collideWith(class Bullet &bullet) = 0;
   virtual void collideWith(class Boss &boss) = 0;
 

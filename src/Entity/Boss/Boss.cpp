@@ -24,7 +24,7 @@ int Boss::getHealth() const { return this->health; }
 int Boss::getMaxHealth() const { return this->maxHealth; }
 void Boss::onCollision(Entity &another) { another.collideWith(*this); }
 
-void Boss::collideWith(Bloque &bloque) { this->alive = false; }
+void Boss::collideWith(Asteroid &asteroid) { this->alive = false; }
 void Boss::collideWith(Player &player) { return; }
 void Boss::collideWith(Bullet &bullet) {
   if (this->health == 0) {

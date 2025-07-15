@@ -1,7 +1,7 @@
 
 #include "AsteroidView.h"
 
-AsteroidView::AsteroidView(std::shared_ptr<Bloque> asteroid) {
+AsteroidView::AsteroidView(std::shared_ptr<Asteroid> asteroid) {
   this->asteroid = asteroid;
   Image asteroidImage =
       LoadImageFromMemory(".png", asteroid_png, asteroid_png_len);

@@ -1,6 +1,7 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
+#include "../Entity/Asteroid/Asteroid.h"
 #include "../Entity/Entity.h"
 #include "../Entity/Player/Player.h"
 #include "../GameView/GameView.h"
@@ -17,7 +18,7 @@ private:
   float bossSpawnTime = 0.0f;
   bool bossAppearing = false;
   std::vector<std::shared_ptr<Bullet>> bullets;
-  std::vector<std::shared_ptr<Bloque>> &asteroids;
+  std::vector<std::shared_ptr<Asteroid>> &asteroids;
   std::shared_ptr<Player> &player;
   std::shared_ptr<Boss> boss;
 
@@ -39,7 +40,7 @@ private:
 public:
   GameController(const std::shared_ptr<GameView> &view,
                  std::shared_ptr<Player> &player,
-                 std::vector<std::shared_ptr<Bloque>> &asteroids);
+                 std::vector<std::shared_ptr<Asteroid>> &asteroids);
   void update();
   void manageColission();
   GameState getState() const;

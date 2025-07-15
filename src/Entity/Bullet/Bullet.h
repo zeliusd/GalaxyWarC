@@ -2,7 +2,7 @@
 #define BULLET_H
 
 #include "../../Position/Position.h"
-#include "../Blocks/Bloque.h"
+#include "../Asteroid/Asteroid.h"
 #include "../Entity.h"
 #include <memory>
 
@@ -25,7 +25,7 @@ public:
 
   void onCollision(Entity &another) override;
   void collideWith(Player &player) override;
-  void collideWith(Bloque &bloque) override;
+  void collideWith(Asteroid &asteroid) override;
   void collideWith(Bullet &bullet) override;
   void collideWith(Boss &boss) override;
 

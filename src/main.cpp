@@ -1,4 +1,4 @@
-#include "Entity/Blocks/Bloque.h"
+#include "Entity/Asteroid/Asteroid.h"
 #include "Entity/Player/Player.h"
 #include "GameController/GameController.h"
 #include "GameView/GameView.h"
@@ -11,13 +11,14 @@
 #include <memory>
 #include <vector>
 
-void generarBloques(std::vector<std::shared_ptr<Bloque>> &entidades,
-                    std::vector<std::shared_ptr<View>> &vistas, int cantidad) {
+void generateAsteroids(std::vector<std::shared_ptr<Asteroid>> &entidades,
+                       std::vector<std::shared_ptr<View>> &vistas,
+                       int cantidad) {
   for (int i = 0; i < cantidad; ++i) {
-    auto bloque =
-        std::make_shared<Bloque>(rand() % 760 + 20, -(rand() % 500 + 100));
-    entidades.push_back(bloque);
-    vistas.push_back(std::make_shared<AsteroidView>(bloque));
+    auto asteroid =
+        std::make_shared<Asteroid>(rand() % 760 + 20, -(rand() % 500 + 100));
+    entidades.push_back(asteroid);
+    vistas.push_back(std::make_shared<AsteroidView>(asteroid));
   }
 }
 
@@ -31,14 +32,14 @@ int main() {
   unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
   srand(seed);
 
-  std::vector<std::shared_ptr<Bloque>> entidades;
+  std::vector<std::shared_ptr<Asteroid>> entidades;
   std::vector<std::shared_ptr<View>> vistas;
 
   std::shared_ptr<Player> player = std::make_shared<Player>(420, 500);
 
   auto playerview = std::make_shared<PlayerView>(player);
 
-  generarBloques(entidades, vistas, 40);
+  generateAsteroids(entidades, vistas, 40);
 
   vistas.push_back(std::make_shared<PlayerView>(player));
   auto vista = std::make_shared<GameView>(vistas);

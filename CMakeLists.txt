@@ -10,8 +10,7 @@ add_subdirectory(external/raylib)
 
 # === Archivos fuente comunes ===
 set(MODEL_SOURCES
-  src/Entity/Blocks/Bloque.cpp
-  src/Inventory/Inventario.cpp
+  src/Entity/Asteroid/Asteroid.cpp
   src/Entity/Player/Player.cpp
   src/Position/Position.cpp
   src/GameController/GameController.cpp
@@ -53,7 +52,6 @@ endif()
 
 # === Ejecutable de tests ===
 set(TEST_SOURCES
-  test/testInventario.cpp
   test/testPlayer.cpp
 )
 

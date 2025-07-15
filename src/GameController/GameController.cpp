@@ -1,5 +1,4 @@
 #include "GameController.h"
-#include "../Entity/Blocks/Bloque.h"
 #include "Entity/Boss/Boss.h"
 #include "Entity/Entity.h"
 #include "GameView/View/BossView/BossView.h"
@@ -21,9 +20,9 @@ extern unsigned int bossMain_wav_len;
 extern unsigned char bossIntro_wav[];
 extern unsigned int bossIntro_wav_len;
 
-GameController::GameController(const std::shared_ptr<GameView> &view,
-                               std::shared_ptr<Player> &player,
-                               std::vector<std::shared_ptr<Bloque>> &asteroids)
+GameController::GameController(
+    const std::shared_ptr<GameView> &view, std::shared_ptr<Player> &player,
+    std::vector<std::shared_ptr<Asteroid>> &asteroids)
     : view(view), player(player), asteroids(asteroids) {
   this->spaceMusic =
       LoadMusicStreamFromMemory(".wav", level_wav, level_wav_len);

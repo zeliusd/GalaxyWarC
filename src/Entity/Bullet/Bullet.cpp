@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "../../Entity/Player/Player.h"
+
 Bullet::Bullet(float x, float y, float vx, float vy,
                std::shared_ptr<Player> shoter)
     : position(std::make_shared<Position>(x, y)), width(35), height(35),
@@ -16,7 +17,7 @@ void Bullet::collideWith(Bullet &bullet) { this->alive = false; }
 void Bullet::collideWith(Player &player) {}
 void Bullet::collideWith(Boss &boss) { this->alive = false; }
 
-void Bullet::collideWith(Bloque &bloque) {
+void Bullet::collideWith(Asteroid &asteroid) {
   this->alive = false;
 
   if (auto p = player.lock()) {

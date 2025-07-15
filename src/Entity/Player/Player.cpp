@@ -1,7 +1,7 @@
 #include "Player.h"
+#include "Entity/Asteroid/Asteroid.h"
 
 Player::Player(float x, float y) {
-  this->inventario = std::make_unique<Inventario>();
   this->indiceActualInventario = 0;
   this->position = std::make_shared<Position>(x, y);
   this->speed = 300.0f;
@@ -9,18 +9,6 @@ Player::Player(float x, float y) {
   this->height = 60;
   this->points = 0;
   this->alive = true;
-}
-
-std::shared_ptr<Bloque> Player::tirarBloque(int indiceBloque) {
-  return inventario->tirarBloque(indiceBloque);
-}
-
-int Player::cantidadObjetosEnInventario() {
-  return inventario->cantidadElementos();
-}
-
-void Player::agarrarBloque(std::shared_ptr<Bloque> bloque) {
-  inventario->addBlock(bloque);
 }
 
 std::shared_ptr<Position> Player::getPosition() const { return position; }
@@ -38,7 +26,7 @@ int Player::getPoints() const { return this->points; }
 
 void Player::onCollision(Entity &another) { another.collideWith(*this); }
 
-void Player::collideWith(Bloque &bloque) { this->alive = false; }
+void Player::collideWith(Asteroid &asteroid) { this->alive = false; }
 void Player::collideWith(Player &player) { return; }
 void Player::collideWith(Bullet &bullet) {
   if (bullet.isPlayerBullet())

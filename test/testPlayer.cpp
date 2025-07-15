@@ -1,19 +1,11 @@
 
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "../external/doctest/doctest.h"
-#include "../src/Entity/Blocks/Bloque.h"
 #include "../src/Entity/Player/Player.h"
 #include <memory>
+TEST_CASE("Jugador se crea y su posicion es correcta") {
 
-TEST_CASE("Jugador puede obtener un bloque") {
-  std::shared_ptr<Bloque> bloque1 = std::make_shared<Bloque>(2, 3);
-  std::unique_ptr<Player> player = std::make_unique<Player>(5, 4);
-  player->agarrarBloque(bloque1);
-  CHECK(player->cantidadObjetosEnInventario() == 1);
-}
+  auto player = std::make_shared<Player>(14, 12);
 
-TEST_CASE("Jugador puede obtener más de un bloque") {
-  std::unique_ptr<Player> player = std::make_unique<Player>(5, 4);
-  player->agarrarBloque(std::make_shared<Bloque>(3, 2));
-  player->agarrarBloque(std::make_shared<Bloque>(3, 2));
-  CHECK(player->cantidadObjetosEnInventario() == 2);
+  CHECK(player->getY() == 12);
 }

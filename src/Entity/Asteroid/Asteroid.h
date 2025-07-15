@@ -1,20 +1,20 @@
 
 
-#ifndef BLOQUE_H
-#define BLOQUE_H
+#ifndef ASTEROID_H
+#define ASTEROID_H
 
 #include "Entity/Entity.h"
 #include "Position/Position.h"
 #include <memory>
 
-class Bloque : public Entity {
+class Asteroid : public Entity {
 private:
   std::shared_ptr<Position> position;
   float width, height;
   bool alive;
 
 public:
-  Bloque(float x = 0, float y = 0);
+  Asteroid(float x = 0, float y = 0);
 
   float getX() const override;
   float getY() const override;
@@ -23,7 +23,7 @@ public:
 
   void onCollision(Entity &another) override;
   void collideWith(Player &player) override;
-  void collideWith(Bloque &bloque) override;
+  void collideWith(Asteroid &asteroid) override;
   void collideWith(Bullet &bullet) override;
   void collideWith(Boss &boss) override;
 
